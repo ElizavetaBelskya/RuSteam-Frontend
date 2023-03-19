@@ -1,6 +1,6 @@
 <template>
   <div class = "main">
-    <img id = "main-logo" src="./assets/rusteam.png" alt = "Rusteam logo">
+    <img id = "main-logo" src="../assets/rusteam.png" alt = "Rusteam logo">
 
     <router-view/>
     <RusteamFooter/>
@@ -9,13 +9,14 @@
 
 <script>
 import RusteamFooter from "@/components/RusteamFooter.vue";
-export default ({
-  name: 'App',
+
+export default {
+  name: "default-layout.vue",
   components: {RusteamFooter}
-})
+}
 </script>
 
-<style>
+<style scoped>
 .main {
   background-size: 80%;
   background: #1b2838 url('@/assets/backgr.jpg') repeat;
@@ -31,11 +32,5 @@ export default ({
   margin-left: 20%;
 }
 
-@media (max-width: 500px) {
-  #main-logo {
-    width: 80%;
-    height: auto;
-  }
-}
 
 </style>

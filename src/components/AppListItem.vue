@@ -1,0 +1,189 @@
+<template>
+  <div id = "item-root">
+    <div id = "container">
+      <div class ="app-item">
+        <div class ="app-cell">
+          <img :src = "image" alt="app image" class ="app-item-image"/>
+        </div>
+        <div class = "app-info">
+          <h3 class = "app-item-title">{{ title }}</h3>
+          <p class = "app-item-description">{{ description }}</p>
+          <button type="button" class="btn btn-outline-info">Подробнее</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+
+export default {
+  name: "AppListItem",
+  props: {
+    title: String,
+    image: URL,
+    description: String
+  }
+}
+</script>
+
+<style scoped>
+#item-root {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+
+#container {
+  /* display: table; */
+  width: 100%;
+  background-color: rgba(66, 38, 134, 0.27);
+  border: 3px solid white;
+  opacity: 0.8;
+  border-radius: 15px 100px 15px 100px;
+}
+
+.app-item {
+  /* display: table-row; */
+}
+
+.app-item-image {
+  border-radius: 5%;
+  width: 200px;
+  height: 200px;
+  margin: 20px;
+}
+
+.app-info {
+  padding: 7%;
+}
+
+.app-cell {
+  /* display: table-cell; */
+  float: left;
+}
+
+.app-info {
+  padding: 7%;
+}
+
+
+.app-item-title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.app-item-description {
+  margin-top: 2%;
+  margin-bottom: 5%;
+  font-size: 18px;
+}
+
+
+@media (max-width: 500px) {
+
+  #item-root {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+  }
+
+
+  #container {
+    /* display: table; */
+    width: 100%;
+    background-color: rgba(66, 38, 134, 0.27);
+    border: 2px solid white;
+    opacity: 0.8;
+    border-radius: 15px 15px 15px 15px;
+
+  }
+
+  .app-item-image {
+    border-radius: 5%;
+    width: 150px;
+    height: 150px;
+    justify-self: center;
+    align-self: center;
+  }
+
+  .app-info {
+    padding: 7%;
+  }
+
+
+  .app-item-title {
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .app-item-description {
+    display: none;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    font-size: 14px;
+  }
+
+  .btn-outline-info {
+    font-size: 14px;
+  }
+
+}
+
+
+@media (max-width: 500px) {
+
+  #item-root {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+  }
+
+
+  #container {
+    /* display: table; */
+    width: 100%;
+    background-color: rgba(66, 38, 134, 0.27);
+    border: 2px solid white;
+    opacity: 0.8;
+    border-radius: 15px 15px 15px 15px;
+
+  }
+
+  .app-item-image {
+    border-radius: 5%;
+    width: 150px;
+    height: 150px;
+    justify-self: center;
+    align-self: center;
+  }
+
+  .app-info {
+    padding: 7%;
+  }
+
+
+  .app-item-title {
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .app-item-description {
+    display: none;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    font-size: 14px;
+  }
+
+  .btn-outline-info {
+    font-size: 14px;
+  }
+
+}
+
+
+</style>

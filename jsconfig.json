@@ -9,6 +9,9 @@
         "src/*"
       ]
     },
+    "files": [
+      "src/tsconfig.json"
+    ],
     "lib": [
       "esnext",
       "dom",
