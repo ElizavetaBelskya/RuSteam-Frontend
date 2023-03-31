@@ -9,25 +9,43 @@
           <h3 class = "app-item-title">{{ title }}</h3>
           <p class = "profile-description">{{ description }}</p>
           <button type="button" class="btn btn-outline-info">Подробнее</button>
+          <ReviewDialog/>
         </div>
+        <UserReview :rating="rating" :text="text"/>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import UserReview from "@/components/UserReview.vue";
+import ReviewDialog from "@/components/ReviewDialog.vue";
 
 export default {
-  name: "AppListItem",
+  name: "UserAppItem",
+  components: {UserReview, ReviewDialog},
   props: {
     title: String,
     image: URL,
-    description: String
+    description: String,
+    text: String,
+    rating: {
+      type: Number,
+      required: true
+    }
+  },
+  data() {
+
+  },
+
+  methods: {
+
   }
 }
 </script>
 
 <style scoped>
+
 
 #item-root {
   display: flex;
@@ -38,10 +56,10 @@ export default {
 
 
 #container {
-  width: 100%;
+  width: 70%;
   background-color: rgba(66, 38, 134, 0.27);
   border: 3px solid white;
-  opacity: 0.8;
+  /*opacity: 0.8;*/
   border-radius: 15px 100px 15px 100px;
 }
 
@@ -56,15 +74,17 @@ export default {
   padding: 7%;
 }
 
-.app-cell {
+.btn {
+  margin-right: 20px;
+}
 
+.app-cell {
   float: left;
 }
 
 .app-info {
   padding: 7%;
 }
-
 
 .app-item-title {
   font-size: 24px;
@@ -75,6 +95,20 @@ export default {
   margin-top: 2%;
   margin-bottom: 5%;
   font-size: 18px;
+}
+
+.crud-buttons ul {
+  list-style: none;
+  display: flex;
+  margin-left: 20px;
+}
+
+.crud-buttons li {
+  margin: 5px;
+}
+
+#user-review {
+  display: none;
 }
 
 
@@ -126,6 +160,19 @@ export default {
     font-size: 14px;
   }
 
+  .crud-buttons {
+  }
+
+  .crud-buttons ul {
+    list-style: none;
+    display: flex;
+    margin-left: 20px;
+  }
+
+  .crud-buttons li {
+    margin: 10px;
+  }
+
 }
 
 
@@ -157,6 +204,11 @@ export default {
     align-self: center;
   }
 
+  .profile-info {
+    padding: 7%;
+  }
+
+
   .app-item-title {
     font-size: 18px;
     font-weight: bold;
@@ -173,7 +225,15 @@ export default {
     font-size: 14px;
   }
 
-}
+  .crud-buttons ul {
+    list-style: none;
+    display: flex;
+  }
 
+  .crud-buttons li {
+    margin: 10px;
+  }
+
+}
 
 </style>

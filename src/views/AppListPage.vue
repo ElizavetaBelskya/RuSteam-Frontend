@@ -20,10 +20,10 @@
 
       <ul>
         <li
-            v-for="app in apps" :key="app"
+            v-for="app in userApps" :key="app"
         >
           <AppListItem
-              :title = "app.title"
+              :title = "app.name"
               :description = "app.description"
               :image = "app.image"
           />
@@ -32,8 +32,9 @@
 
       <v-pagination
           v-model="page"
-          :length="4"
+          :length="pagescount"
           rounded="circle"
+          @click="fetchData"
       ></v-pagination>
 
     </div>
@@ -59,30 +60,64 @@ export default {
   },
   data() {
     return {
-      apps: [
-        {
-          title: "Загадочный дом",
-          image: "https://mahachkala.mir-kvestov.ru/uploads/quests/12139/original/shetvertyy_vid_dom_uzhasov_photo1.jpg?1643794780",
-          description: "Игра с потрясающей графикой, которая заставит вас по-настоящему испугаться..."
-        },
-        {
-          title: "Homescapes",
-          image: "https://upload.wikimedia.org/wikipedia/en/7/7e/Homescapes_icon.png",
-          description: "Дом и куча рекламы"
-        },
-        {
-          title: "Angry birds",
-          image: "https://assets-prd.ignimgs.com/2023/01/27/angrybirds-1674798875645.jpg",
-          description: "Классическая игра для мобильных устройств, которая помогает скоротать время..."
-        }
-      ],
-      tags: [
-        {
-          title: ""
-        }
-      ]
+      page: 1,
+      pagescount: 1,
+      apps: []
     }
+  },
+  methods: {
+    fetchData: function() {
+      let pageId = this.page - 1
+      fetch('http://localhost:80/applications?page=' + pageId, {
+        method: 'GET',
+      }).then(res => res.json())
+          .then(res => {
+            console.log(res);
+            this.apps = res.applications;
+            this.pagescount = res.totalPagesCount;
+          }).catch(error => console.error('Error:', error));
+    },
+  },
+  created() {
+    let pageId = this.page - 1
+    fetch('http://localhost:80/applications?page=' + pageId, {
+      method: 'GET',
+    }).then(res => res.json())
+        .then(res => {
+          this.apps = res.applications
+          this.pagescount = res.totalPagesCount
+        }).catch(error => console.error('Error:', error));
   }
+
+  // data() {
+  //   return axios('http://localhost:80/applications', {
+  //     method: "GET"
+  //     // apps: [
+  //     //   {
+  //     //     title: "Загадочный дом",
+  //     //     image: "https://mahachkala.mir-kvestov.ru/uploads/quests/12139/original/shetvertyy_vid_dom_uzhasov_photo1.jpg?1643794780",
+  //     //     description: "Игра с потрясающей графикой, которая заставит вас по-настоящему испугаться..."
+  //     //   },
+  //     //   {
+  //     //     title: "Homescapes",
+  //     //     image: "https://upload.wikimedia.org/wikipedia/en/7/7e/Homescapes_icon.png",
+  //     //     description: "Дом и куча рекламы"
+  //     //   },
+  //     //   {
+  //     //     title: "Angry birds",
+  //     //     image: "https://assets-prd.ignimgs.com/2023/01/27/angrybirds-1674798875645.jpg",
+  //     //     description: "Классическая игра для мобильных устройств, которая помогает скоротать время..."
+  //     //   }
+  //     // ],
+  //     // tags: [
+  //     //   {
+  //     //     title: ""
+  //     //   }
+  //     // ]
+  //   }).then((apps) => {
+  //     this.apps = apps
+  //   })
+  // }
 }
 </script>
 
@@ -95,26 +130,6 @@ export default {
 header {
   display: none;
 }
-
-/*.welcome-block {*/
-/*  height: 70vh;*/
-/*  color: aliceblue;*/
-/*  padding-top: 5vw;*/
-/*  padding-left: 10vw;*/
-/*  position: relative;*/
-
-/*}*/
-
-/*.bg {*/
-/*  background-size: 100%;*/
-/*  position: absolute;*/
-/*  top: 0;*/
-/*  bottom: 0;*/
-/*  right: 0;*/
-/*  left: 0;*/
-/*  z-index: -1;*/
-/*}*/
-
 .app-list {
   color: aliceblue;
   padding: 1% 20% 7%;

@@ -17,18 +17,20 @@ export default ({
 
 <style>
 .main {
-  background-size: 80%;
-  background: #1b2838 url('@/assets/backgr.jpg') repeat;
+  background: url('@/assets/backgrn.png');
+  background-size: 70%;
 }
+
+
 
 #main-logo img {
   background: none;
 }
 
 #main-logo {
-  width: 60%;
+  width: 40%;
   height: auto;
-  margin-left: 20%;
+  margin-left: 30%;
 }
 
 @media (max-width: 500px) {

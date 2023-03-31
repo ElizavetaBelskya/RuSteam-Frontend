@@ -25,7 +25,14 @@
 
 <script>
 export default {
-  name: "AdsBanner"
+  name: "AdsBanner",
+  data() {
+    return {
+      image1 : '',
+      image2: '',
+      image3: ''
+    }
+  }
 }
 </script>
 
