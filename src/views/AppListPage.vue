@@ -1,9 +1,18 @@
 <template>
   <div class ="App">
-    <RusteamSidebar/>
+    <RusteamSidebar id = "main-sidebar"/>
     <AdsBanner/>
+    <LoginInvitation/>
     <div class ="app-list" id = "main-list">
-      <RuSteamSearch/>
+
+
+      <div class="container-fluid">
+        <form class="d-flex" role="search" @submit.prevent="search">
+          <input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Search" v-model="searchTerm">
+          <button class="btn btn-outline-info" type="submit">Поиск</button>
+        </form>
+      </div>
+
       <SelectFilter id = "select"/>
       <ul class = "filters">
         <li>
@@ -20,7 +29,7 @@
 
       <ul>
         <li
-            v-for="app in userApps" :key="app"
+            v-for="app in apps" :key="app"
         >
           <AppListItem
               :title = "app.name"
@@ -44,22 +53,24 @@
 <script>
 import AppListItem from '@/components/AppListItem.vue'
 import RusteamSidebar from "@/components/Sidebar.vue"
-import RuSteamSearch from "@/components/RuSteamSearch.vue";
 import FilterChip from "@/components/FilterChip.vue";
 import SelectFilter from "@/components/SelectFilter.vue";
 import AdsBanner from "@/components/AdsBanner.vue";
+import LoginInvitation from "@/components/LoginInvitation.vue";
+
 export default {
   name: "AppListPage",
   components: {
+    LoginInvitation,
     AdsBanner,
     SelectFilter,
     FilterChip,
-    RuSteamSearch,
     RusteamSidebar,
     AppListItem
   },
   data() {
     return {
+      searchTerm: "",
       page: 1,
       pagescount: 1,
       apps: []
@@ -67,16 +78,48 @@ export default {
   },
   methods: {
     fetchData: function() {
-      let pageId = this.page - 1
-      fetch('http://localhost:80/applications?page=' + pageId, {
-        method: 'GET',
+      if (this.searchTerm === '') {
+        let pageId = this.page - 1
+        fetch('http://localhost:80/applications?page=' + pageId, {
+          method: 'GET'
+        }).then(res => res.json())
+            .then(res => {
+              console.log(res);
+              this.apps = res.applications;
+              this.pagescount = res.totalPagesCount;
+            }).catch(error => console.error('Error:', error));
+      }
+
+    },
+
+    search() {
+      fetch('http://localhost:80/applications/search?content='
+          + this.searchTerm + "&page=" + 1, {
+        method: 'GET'
       }).then(res => res.json())
           .then(res => {
             console.log(res);
             this.apps = res.applications;
-            this.pagescount = res.totalPagesCount;
+            this.pagescount = 1;
           }).catch(error => console.error('Error:', error));
-    },
+    }
+
+  },
+  watch: {
+    searchTerm: function() {
+      if (this.searchTerm === '') {
+        let pageId = this.page - 1
+        fetch('http://localhost:80/applications?page=' + pageId, {
+          method: 'GET'
+        }).then(res => res.json())
+            .then(res => {
+              console.log(res);
+              this.apps = res.applications;
+              this.pagescount = res.totalPagesCount;
+            }).catch(error => console.error('Error:', error));
+      }
+      this.search();
+    }
   },
   created() {
     let pageId = this.page - 1
@@ -122,6 +165,11 @@ export default {
 </script>
 
 <style scoped>
+
+#main-sidebar {
+  display: none;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -132,7 +180,7 @@ header {
 }
 .app-list {
   color: aliceblue;
-  padding: 1% 20% 7%;
+  padding: 1% 15% 7%;
 }
 
 

@@ -107,9 +107,6 @@ export default {
   margin: 5px;
 }
 
-#user-review {
-  display: none;
-}
 
 
 @media (max-width: 500px) {
@@ -133,8 +130,8 @@ export default {
 
   .app-item-image {
     border-radius: 5%;
-    width: 150px;
-    height: 150px;
+    width: 100px;
+    height: 100px;
     justify-self: center;
     align-self: center;
   }
@@ -176,63 +173,63 @@ export default {
 }
 
 
-@media (max-width: 500px) {
+@media (max-width: 1000px) {
 
-  #item-root {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-  }
-
-
-  #container {
-    /* display: table; */
-    width: 100%;
-    background-color: rgba(66, 38, 134, 0.27);
-    border: 2px solid white;
-    opacity: 0.8;
-    border-radius: 15px 15px 15px 15px;
-
-  }
-
-  .app-item-image {
-    border-radius: 5%;
-    width: 150px;
-    height: 150px;
-    justify-self: center;
-    align-self: center;
-  }
-
-  .profile-info {
-    padding: 7%;
-  }
+  /*#item-root {*/
+  /*  display: flex;*/
+  /*  align-items: center;*/
+  /*  justify-content: center;*/
+  /*  color: white;*/
+  /*}*/
 
 
-  .app-item-title {
-    font-size: 18px;
-    font-weight: bold;
-  }
+  /*#container {*/
+  /*  !* display: table; *!*/
+  /*  width: 100%;*/
+  /*  background-color: rgba(66, 38, 134, 0.27);*/
+  /*  border: 2px solid white;*/
+  /*  opacity: 0.8;*/
+  /*  border-radius: 15px 15px 15px 15px;*/
 
-  .profile-description {
-    display: none;
-    margin-top: 2%;
-    margin-bottom: 2%;
-    font-size: 14px;
-  }
+  /*}*/
 
-  .btn-outline-info {
-    font-size: 14px;
-  }
+  /*.app-item-image {*/
+  /*  border-radius: 5%;*/
+  /*  width: 150px;*/
+  /*  height: 150px;*/
+  /*  justify-self: center;*/
+  /*  align-self: center;*/
+  /*}*/
 
-  .crud-buttons ul {
-    list-style: none;
-    display: flex;
-  }
+  /*.profile-info {*/
+  /*  padding: 7%;*/
+  /*}*/
 
-  .crud-buttons li {
-    margin: 10px;
-  }
+
+  /*.app-item-title {*/
+  /*  font-size: 18px;*/
+  /*  font-weight: bold;*/
+  /*}*/
+
+  /*.profile-description {*/
+  /*  display: none;*/
+  /*  margin-top: 2%;*/
+  /*  margin-bottom: 2%;*/
+  /*  font-size: 14px;*/
+  /*}*/
+
+  /*.btn-outline-info {*/
+  /*  font-size: 14px;*/
+  /*}*/
+
+  /*.crud-buttons ul {*/
+  /*  list-style: none;*/
+  /*  display: flex;*/
+  /*}*/
+
+  /*.crud-buttons li {*/
+  /*  margin: 10px;*/
+  /*}*/
 
 }
 

@@ -28,6 +28,7 @@
 import ProfileInfo from "@/components/Profile.vue";
 import UserAppItem from "@/components/UserAppItem.vue";
 import RusteamSidebar from "@/components/Sidebar.vue";
+import axios from "axios";
 
 export default {
   name: "ProfilePage",
@@ -38,15 +39,10 @@ export default {
     }
   },
 
-  created() {
-    // let pageId = this.page - 1
-    // fetch('http://localhost:80/applications?page=' + pageId, {
-    //   method: 'GET',
-    // }).then(res => res.json())
-    //     .then(res => {
-    //       this.apps = res.applications
-    //       this.pagescount = res.totalPagesCount
-    //     }).catch(error => console.error('Error:', error));
+  async created() {
+    const response = (await axios.get('user'))
+
+    console.log(response)
   }
 
 }

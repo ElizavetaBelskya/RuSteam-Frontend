@@ -129,35 +129,41 @@ export default {
 
   .avatar {
     border-radius: 5%;
-    width: 150px;
-    height: 150px;
-    justify-self: center;
-    align-self: center;
+    width: 100px;
+    height: 100px;
+    margin: 6px 20px 20px 20px;
+  }
+
+  #nickname {
+    margin-left: 20px;
+    margin-top: 12px;
   }
 
   .profile-info {
-    padding: 4%;
+    padding: 2%;
   }
 
-  .profile-description {
-    font-size: 14px;
+  .profile-description p {
+    font-size: 16px;
   }
 
   .btn-outline-info {
-    font-size: 14px;
+    font-size: 18px;
   }
 
   .crud-buttons {
-    margin: 6%;
+    padding: 0;
+    margin-left: 2%;
+    margin-right: 2%;
   }
 
   .crud-buttons ul {
     list-style: none;
-    display: flex;
+    padding: 0;
   }
 
   .crud-buttons li {
-    margin: 10px;
+    margin: 5px;
   }
 
 
@@ -167,52 +173,52 @@ export default {
 
 @media (max-width: 500px) {
 
-  #profile-root {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-  }
+  /*#profile-root {*/
+  /*  display: flex;*/
+  /*  align-items: center;*/
+  /*  justify-content: center;*/
+  /*  color: white;*/
+  /*}*/
 
 
-  #container {
-    /* display: table; */
-    width: 100%;
-    background-color: rgba(66, 38, 134, 0.27);
-    border: 2px solid white;
-    opacity: 0.8;
-    border-radius: 15px 15px 15px 15px;
+  /*#container {*/
+  /*  !* display: table; *!*/
+  /*  width: 100%;*/
+  /*  background-color: rgba(66, 38, 134, 0.27);*/
+  /*  border: 2px solid white;*/
+  /*  opacity: 0.8;*/
+  /*  border-radius: 15px 15px 15px 15px;*/
 
-  }
+  /*}*/
 
-  .avatar {
-    border-radius: 5%;
-    width: 150px;
-    height: 150px;
-    justify-self: center;
-    align-self: center;
-  }
+  /*.avatar {*/
+  /*  border-radius: 5%;*/
+  /*  width: 150px;*/
+  /*  height: 150px;*/
+  /*  justify-self: center;*/
+  /*  align-self: center;*/
+  /*}*/
 
-  .profile-info {
-    padding: 7%;
-  }
+  /*.profile-info {*/
+  /*  padding: 7%;*/
+  /*}*/
 
-  .profile-description {
-    font-size: 16px;
-  }
+  /*.profile-description {*/
+  /*  font-size: 16px;*/
+  /*}*/
 
-  .btn-outline-info {
-    font-size: 14px;
-  }
+  /*.btn-outline-info {*/
+  /*  font-size: 14px;*/
+  /*}*/
 
-  .crud-buttons ul {
-    list-style: none;
-    display: flex;
-  }
+  /*.crud-buttons ul {*/
+  /*  list-style: none;*/
+  /*  display: flex;*/
+  /*}*/
 
-  .crud-buttons li {
-    margin: 10px;
-  }
+  /*.crud-buttons li {*/
+
+  /*}*/
 
 }
 

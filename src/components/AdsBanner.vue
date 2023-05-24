@@ -48,7 +48,7 @@ export default {
 #banner-carousel {
   margin-left: 20%;
   margin-right: 20%;
-  margin-bottom: 5%;
+  margin-bottom: 2%;
 }
 
 @media (max-width: 500px) {

@@ -25,8 +25,8 @@
         ></v-rating>
 
         <div class="mb-3">
-          <label for="email" class="form-label">Ваш отзыв</label>
-          <textarea type="email" class="form-control" rows="5" id="email" required/>
+          <label for="review" class="form-label">Ваш отзыв</label>
+          <textarea class="form-control" rows="5" id="review" required/>
         </div>
 
 
@@ -85,6 +85,21 @@ export default {
   background-color: rgba(0, 0, 0, 0.92);
   color: white;
   opacity: 0.9;
+}
+
+@media (max-width: 500px) {
+  .btn {
+    margin-left: 4px;
+    font-size: 14px;
+  }
+
+  .v-card {
+    padding: 6%;
+    color: white;
+    background-color: rgba(79, 18, 225, 0.8);
+  }
+
+
 }
 
 

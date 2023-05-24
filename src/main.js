@@ -4,6 +4,7 @@ import vuetify from './plugins/vuetify'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/js/bootstrap.js'
 import router from './router'
+import './axios'
 import DefaultLayout from './layouts/default.vue'
 import '@mdi/font/css/materialdesignicons.css'
 

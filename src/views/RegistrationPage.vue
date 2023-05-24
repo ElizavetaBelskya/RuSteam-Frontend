@@ -1,21 +1,22 @@
 <template>
   <form id="form" @submit.prevent="onRegisterClick">
-   <Invitation/>
+    <Invitation/>
     <div class="mb-3">
       <label for="email" class="form-label">Ваш email</label>
       <input type="email" v-model="email" class="form-control" id="email" placeholder="name@example.com" required>
     </div>
     <div class="mb-3">
       <label for="nickname" class="form-label">Ваш псевдоним на сайте</label>
-      <input type="text" v-model = "nickname" class="form-control" id="nickname" placeholder="Псевдоним" required>
+      <input type="text" v-model="nickname" class="form-control" id="nickname" placeholder="Псевдоним" required>
     </div>
     <div class="mb-3">
       <label for="password" class="form-label">Пароль</label>
-      <input type="password" v-model = "password" class="form-control" id="password" placeholder="Пароль" required>
+      <input type="password" v-model="password" class="form-control" id="password" placeholder="Пароль" required>
     </div>
     <div class="mb-3">
       <label for="password-form" class="form-label">Повторите пароль</label>
-      <input type="password" class="form-control" id="password-form" placeholder="Пароль" required>
+      <input type="password" v-model="password_repeat" class="form-control" id="password-form" placeholder="Пароль"
+             required>
     </div>
 
     <div class="form-check">
@@ -25,13 +26,14 @@
       </label>
     </div>
 
-    <button type="submit" class="btn btn-outline-info" id= "register-btn">Зарегистрироваться</button>
+    <button type="submit" class="btn btn-outline-info" id="register-btn">Зарегистрироваться</button>
 
   </form>
 </template>
 
 <script>
 import Invitation from "@/components/Invitation.vue";
+import axios from "axios";
 
 export default {
   name: "RegistrationPage",
@@ -40,31 +42,53 @@ export default {
     return {
       email: '',
       nickname: '',
-      password:''
+      password: '',
+      password_repeat: ''
     }
   },
   methods: {
-    onRegisterClick: function() {
-       fetch("http://localhost:80/accounts", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        credentials: 'include',
-        body: JSON.stringify( {
-          email: this.email,
-          nickname: this.nickname,
-          password: this.password
-        })
-      }).then(response => {
-         if (response.ok) {
-           console.log('Регистрация прошла успешно');
-         } else {
-           console.error('Ошибка при регистрации');
-         }
-       }).catch(error => {
-         console.error('Ошибка сети:', error);
-       });
+    async onRegisterClick() {
+
+      axios.post("accounts",
+          {
+            email: this.email,
+            nickname: this.nickname,
+            password: this.password
+          }).then(response => {
+        if (response.ok) {
+          console.log('Регистрация прошла успешно');
+        } else {
+          console.error('Ошибка при регистрации');
+        }
+      }).catch (
+          error => {
+            console.error('Ошибка сети:', error);
+          }
+      );
+
+
+
+
+      //  fetch("http://localhost:80/accounts", {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json'
+      //   },
+      //   credentials: 'include',
+      //   body: JSON.stringify( {
+      //     email: this.email,
+      //     nickname: this.nickname,
+      //     password: this.password
+      //   })
+      // }).then(response => {
+      //    if (response.ok) {
+      //      console.log('Регистрация прошла успешно');
+      //    } else {
+      //      console.error('Ошибка при регистрации');
+      //    }
+      //  }).catch(error => {
+      //    console.error('Ошибка сети:', error);
+      //  });
 
     }
   }

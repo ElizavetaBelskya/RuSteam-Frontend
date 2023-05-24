@@ -8,10 +8,10 @@
       </div>
       <div class="mb-3">
         <label for="password" class="form-label">Пароль</label>
-        <input type="password" v-model = "password" class="form-control" id="password" placeholder="Пароль" required>
+        <input type="password" v-model="password" class="form-control" id="password" placeholder="Пароль" required>
       </div>
 
-      <button type="submit" class="btn btn-outline-info" id= "register-btn">Зарегистрироваться</button>
+      <button type="submit" class="btn btn-outline-info" id="register-btn">Войти</button>
 
     </form>
   </div>
@@ -19,12 +19,33 @@
 
 <script>
 import AdsBanner from "@/components/AdsBanner.vue";
+import axios from "axios";
+
 
 export default {
+
   name: "LoginPage",
+  data() {
+    return {
+      email: '',
+      password: ''
+    }
+  },
   components: {AdsBanner},
   methods: {
-    onLoginClick: function () {
+    async onLoginClick() {
+      const response = await axios.post('auth/login', {
+        email: this.email,
+        password: this.password
+      }, {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      });
+
+      console.log(response)
+
+      localStorage.setItem("token", response.data.token)
 
     }
   }
