@@ -2,7 +2,8 @@
   <div class = "review">
     <h6>{{ nickname }}</h6>
     <v-rating
-        :value="rating"
+        v-model="apprating"
+        readonly
         bg-color="orange-lighten-1"
         color="blue"
     ></v-rating>
@@ -16,10 +17,12 @@ export default {
   props: {
     text: String,
     nickname: String,
-    rating: {
-      type: Number,
-      required: true
-    }
+    rating: Number
+  },
+  data() {
+    return {
+      apprating: this.rating
+    };
   }
 }
 </script>
@@ -31,7 +34,15 @@ export default {
   font-size: 18px;
   border: 1px solid white;
   border-radius: 70px 70px 15px 100px;
-  padding: 40px;
+  padding: 30px;
+}
+
+.review h6 {
+  padding-left: 15px;
+}
+
+.review p {
+  padding-left: 15px;
 }
 
 #change-rating {

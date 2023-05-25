@@ -1,7 +1,6 @@
 <template>
 <div>
   <div class="app-container">
-<!--    <VideoContainer video-url="{{embedUrl}}"/>-->
     <h1>{{ name }}</h1>
 
     <div>
@@ -12,6 +11,8 @@
         </p>
       </div>
     </div>
+
+    <VideoContainer :video-url="embedUrl"></VideoContainer>
 <!--    <AppInfoBanner-->
 <!--        :image1 = "image1"-->
 <!--        :image2 = "image2"-->
@@ -19,15 +20,18 @@
 <!--    />-->
     <h3>Отзывы о приложении</h3>
     <div class="reviews-container">
-      <ReviewForDescription nickname="User1223" rating="4" text = "капец бомба огонь ваще" />
-      <ReviewForDescription nickname="User1223" rating="4" text = "капец бомба огонь ваще" />
-      <ReviewForDescription nickname="User1223" rating="4" text = "капец бомба огонь ваще" />
-      <ReviewForDescription nickname="User1223" rating="4" text = "капец бомба огонь ваще" />
-      <ReviewForDescription nickname="User1223" rating="4" text = "капец бомба огонь ваще" />
-      <ReviewForDescription nickname="User1223" rating="4" text = "капец бомба огонь ваще" />
-      <ReviewForDescription nickname="User1223" rating="4" text = "капец бомба огонь ваще" />
-
+        <li
+            v-for="review in reviews" :key="review"
+        >
+          <ReviewForDescription nickname="User1223" :rating="review.rating" :text = "review.text" />
+        </li>
     </div>
+    <v-pagination
+        v-model="page"
+        :length="pagescount"
+        rounded="circle"
+        @click="fetchData"
+    ></v-pagination>
   </div>
 
 </div>
@@ -35,35 +39,56 @@
 
 <script>
 // import AppInfoBanner from "@/components/AppInfoBanner.vue";
+import VideoContainer from "@/components/VideoContainer.vue";
 import ReviewForDescription from "@/components/ReviewForDescription.vue";
 
 export default {
   name: "AppDescription",
-  components: {ReviewForDescription},
+  components: {VideoContainer, ReviewForDescription},
   data() {
     return {
-      name: String,
-      description: String,
+      name: '',
+      description: '',
       appId: Number,
+      reviews: [],
+      page: 1,
+      pagescount: 1,
       embedUrl: "https://www.youtube.com/watch?v=1Bk_nqUQ0fc&ab_channel=AngryBirds",
       image1: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.angrybirds.com%2F&psig=AOvVaw1Rh3Gw_7pJIgKvE6nPhydf&ust=1679584706036000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCOCeruDq7_0CFQAAAAAdAAAAABAD",
       image2: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.ixbt.com%2Fnews%2F2022%2F04%2F01%2Fkultovaja-klassika-mobilnyh-igr-originalnaja-angry-birds-vozvrashaetsja.html&psig=AOvVaw1Rh3Gw_7pJIgKvE6nPhydf&ust=1679584706036000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCOCeruDq7_0CFQAAAAAdAAAAABAI",
       image3: "https://www.google.com/url?sa=i&url=https%3A%2F%2Flifehacker.ru%2Fangry-birds-udalyat-iz-google-play%2F&psig=AOvVaw1Rh3Gw_7pJIgKvE6nPhydf&ust=1679584706036000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCOCeruDq7_0CFQAAAAAdAAAAABAQ",
     }
   },
+
   mounted() {
     this.appId = this.$route.params.appId;
-    this.loadAppDetails();
+    this.loadApplicationDetails(this.appId);
+    this.fetchData()
   },
+
+
   methods: {
-    loadAppDetails() {
-      fetch('http://localhost:80/applications/' + this.appId, {
+    loadApplicationDetails(id) {
+      console.log(id);
+      fetch('http://localhost:80/applications/' + id, {
         method: 'GET',
       }).then(res => res.json())
           .then(res => {
-            this.description = res.description
-            this.name = res.name
+            this.description = res.description;
+            this.name = res.name;
           }).catch(error => console.error('Error:', error));
+    },
+
+    fetchData: function () {
+        let pageId = this.page - 1
+        fetch('http://localhost:80/reviews?page=' + pageId + '&applicationId=' + this.appId, {
+          method: 'GET'
+        }).then(res => res.json())
+            .then(res => {
+              console.log(res);
+              this.reviews = res.reviews;
+              this.pagescount = res.totalPagesCount;
+            }).catch(error => console.error('Error:', error));
     }
   }
 }
@@ -105,6 +130,7 @@ h2 {
 }
 
 .reviews-container {
+  list-style-type: none;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;

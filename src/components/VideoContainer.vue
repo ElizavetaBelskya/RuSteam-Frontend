@@ -1,6 +1,6 @@
 <template>
   <div class="video-container">
-    <iframe :src="embedUrl" width="560" height="315" frameborder="0" allowfullscreen></iframe>
+    <iframe :src="embedUrl" width="560" height="315" allowfullscreen></iframe>
   </div>
 </template>
 
@@ -15,6 +15,7 @@ export default {
   computed: {
     embedUrl() {
       let videoId = this.videoUrl.split("=")[1];
+      console.log("https://www.youtube.com/embed/" + videoId)
       return "https://www.youtube.com/embed/" + videoId;
     },
   },
@@ -31,6 +32,7 @@ export default {
 
 .video-container iframe {
   position: absolute;
+  padding: 10%;
   top: 0;
   left: 0;
   width: 100%;
