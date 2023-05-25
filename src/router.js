@@ -27,7 +27,7 @@ const routes = [
         component: Error
     },
     {
-        path: '/1',
+        path: '/app/:appId',
         name: 'app',
         component: AppDescription
     },

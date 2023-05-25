@@ -2,16 +2,13 @@
 <div>
   <div class="app-container">
 <!--    <VideoContainer video-url="{{embedUrl}}"/>-->
-    <h1>Angry birds</h1>
+    <h1>{{ name }}</h1>
 
     <div>
       <img id ="main-img" src="../assets/angrybirds.png" width="400" height="400" alt="Angry birds">
       <div id="des-text">
         <h3>Описание приложения</h3>
-        <p>sssssssssssssssssssssssssssssssssssssssssssssssssss
-        sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
-        ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
-        ssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
+        <p>{{ description }}
         </p>
       </div>
     </div>
@@ -45,10 +42,28 @@ export default {
   components: {ReviewForDescription},
   data() {
     return {
+      name: String,
+      description: String,
+      appId: Number,
       embedUrl: "https://www.youtube.com/watch?v=1Bk_nqUQ0fc&ab_channel=AngryBirds",
       image1: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.angrybirds.com%2F&psig=AOvVaw1Rh3Gw_7pJIgKvE6nPhydf&ust=1679584706036000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCOCeruDq7_0CFQAAAAAdAAAAABAD",
       image2: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.ixbt.com%2Fnews%2F2022%2F04%2F01%2Fkultovaja-klassika-mobilnyh-igr-originalnaja-angry-birds-vozvrashaetsja.html&psig=AOvVaw1Rh3Gw_7pJIgKvE6nPhydf&ust=1679584706036000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCOCeruDq7_0CFQAAAAAdAAAAABAI",
       image3: "https://www.google.com/url?sa=i&url=https%3A%2F%2Flifehacker.ru%2Fangry-birds-udalyat-iz-google-play%2F&psig=AOvVaw1Rh3Gw_7pJIgKvE6nPhydf&ust=1679584706036000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCOCeruDq7_0CFQAAAAAdAAAAABAQ",
+    }
+  },
+  mounted() {
+    this.appId = this.$route.params.appId;
+    this.loadAppDetails();
+  },
+  methods: {
+    loadAppDetails() {
+      fetch('http://localhost:80/applications/' + this.appId, {
+        method: 'GET',
+      }).then(res => res.json())
+          .then(res => {
+            this.description = res.description
+            this.name = res.name
+          }).catch(error => console.error('Error:', error));
     }
   }
 }

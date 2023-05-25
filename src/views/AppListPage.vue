@@ -32,6 +32,7 @@
             v-for="app in apps" :key="app"
         >
           <AppListItem
+              :id = "app.id"
               :title = "app.name"
               :description = "app.description"
               :image = "app.image"

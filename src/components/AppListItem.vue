@@ -8,7 +8,9 @@
         <div class = "app-info">
           <h3 class = "app-item-title">{{ title }}</h3>
           <p class = "profile-description">{{ description }}</p>
-          <button type="button" class="btn btn-outline-info">Подробнее</button>
+          <router-link :to="{ name: 'app', params: { appId: id } }">
+            <button type="button" class="btn btn-outline-info">Подробнее</button>
+          </router-link>
         </div>
       </div>
     </div>
@@ -20,6 +22,7 @@
 export default {
   name: "AppListItem",
   props: {
+    id: Number,
     title: String,
     image: URL,
     description: String
