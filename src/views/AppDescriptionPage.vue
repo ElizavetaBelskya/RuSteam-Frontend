@@ -4,20 +4,23 @@
     <h1>{{ name }}</h1>
 
     <div>
-      <img id ="main-img" src="../assets/angrybirds.png" width="400" height="400" alt="Angry birds">
+<!--      <img id ="main-img" src="../assets/angrybirds.png" width="400" height="400" alt="Angry birds">-->
+      <AppInfoBanner
+          :image1 = "image1"
+          :image2 = "image2"
+          :image3 = "image3"></AppInfoBanner>
       <div id="des-text">
         <h3>Описание приложения</h3>
         <p>{{ description }}
         </p>
       </div>
+      <div>
+        <a :href="downloadLink" class="download-button" download="your-application.apk">Загрузить на Android</a>
+        <a :href="downloadLink" class="download-button" download="your-application.apk">Загрузить на Windows</a>
+      </div>
     </div>
 
     <VideoContainer :video-url="embedUrl"></VideoContainer>
-<!--    <AppInfoBanner-->
-<!--        :image1 = "image1"-->
-<!--        :image2 = "image2"-->
-<!--        :image3 = "image3"-->
-<!--    />-->
     <h3>Отзывы о приложении</h3>
     <div class="reviews-container">
         <li
@@ -38,13 +41,13 @@
 </template>
 
 <script>
-// import AppInfoBanner from "@/components/AppInfoBanner.vue";
+import AppInfoBanner from "@/components/AppInfoBanner.vue";
 import VideoContainer from "@/components/VideoContainer.vue";
 import ReviewForDescription from "@/components/ReviewForDescription.vue";
 
 export default {
   name: "AppDescription",
-  components: {VideoContainer, ReviewForDescription},
+  components: {AppInfoBanner, VideoContainer, ReviewForDescription},
   data() {
     return {
       name: '',
@@ -54,9 +57,10 @@ export default {
       page: 1,
       pagescount: 1,
       embedUrl: "https://www.youtube.com/watch?v=1Bk_nqUQ0fc&ab_channel=AngryBirds",
-      image1: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.angrybirds.com%2F&psig=AOvVaw1Rh3Gw_7pJIgKvE6nPhydf&ust=1679584706036000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCOCeruDq7_0CFQAAAAAdAAAAABAD",
-      image2: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.ixbt.com%2Fnews%2F2022%2F04%2F01%2Fkultovaja-klassika-mobilnyh-igr-originalnaja-angry-birds-vozvrashaetsja.html&psig=AOvVaw1Rh3Gw_7pJIgKvE6nPhydf&ust=1679584706036000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCOCeruDq7_0CFQAAAAAdAAAAABAI",
-      image3: "https://www.google.com/url?sa=i&url=https%3A%2F%2Flifehacker.ru%2Fangry-birds-udalyat-iz-google-play%2F&psig=AOvVaw1Rh3Gw_7pJIgKvE6nPhydf&ust=1679584706036000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCOCeruDq7_0CFQAAAAAdAAAAABAQ",
+      image1: "https://cdn.lifehacker.ru/wp-content/uploads/2023/02/5929657_cover_Angry-Birds-Classic_1677046740-640x320.jpg",
+      image2: "https://www.ixbt.com/img/x780/n1/news/2022/3/4/Classic_key_web-lbox-1440x820-trans_large.jpg",
+      image3: "https://cdn.lifehacker.ru/wp-content/uploads/2023/02/Eg0ZtclFkNKbL4YpppNgNbXzu_VmoSw9_1677046817-1280x640.jpg",
+      downloadLink: "https://storage.evozi.com/apk/dl/16/09/04/com.camerasideas.instashot_1332.apk"
     }
   },
 
@@ -69,7 +73,6 @@ export default {
 
   methods: {
     loadApplicationDetails(id) {
-      console.log(id);
       fetch('http://localhost:80/applications/' + id, {
         method: 'GET',
       }).then(res => res.json())
@@ -85,7 +88,6 @@ export default {
           method: 'GET'
         }).then(res => res.json())
             .then(res => {
-              console.log(res);
               this.reviews = res.reviews;
               this.pagescount = res.totalPagesCount;
             }).catch(error => console.error('Error:', error));
@@ -95,6 +97,20 @@ export default {
 </script>
 
 <style scoped>
+
+.download-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 4px;
+  margin: 10px;
+}
+
+.download-button:hover {
+  background-color: #45a049;
+}
 
 .app-container {
   color: white;

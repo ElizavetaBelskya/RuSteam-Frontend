@@ -21,8 +21,6 @@ export default ({
   background-size: 70%;
 }
 
-
-
 #main-logo img {
   background: none;
 }

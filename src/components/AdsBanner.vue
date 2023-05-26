@@ -32,7 +32,24 @@ export default {
       image2: '',
       image3: ''
     }
-  }
+  },
+  mounted() {
+    this.adjustImageSizes();
+    window.addEventListener("resize", this.adjustImageSizes);
+  },
+  beforeUnmount() {
+    window.removeEventListener("resize", this.adjustImageSizes);
+  },
+  methods: {
+    adjustImageSizes() {
+      const images = this.$el.querySelectorAll(".carousel-item img");
+      const smallestSize = Math.min(...Array.from(images).map((img) => img.naturalHeight));
+      Array.from(images).forEach((img) => {
+        img.style.height = smallestSize + "px";
+        img.style.width = "auto";
+      });
+    },
+  },
 }
 </script>
 

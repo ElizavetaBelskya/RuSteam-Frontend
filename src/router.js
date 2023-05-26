@@ -5,6 +5,7 @@ import Register from './views/RegistrationPage.vue'
 import Error from './views/ErrorPage.vue'
 import AppDescription from "@/views/AppDescriptionPage.vue";
 import Profile from '@/views/ProfilePage.vue'
+import NotFound from '@/views/NotFound.vue';
 const routes = [
     {
         path: '/',
@@ -35,7 +36,13 @@ const routes = [
         path: '/profile',
         name: 'profile',
         component: Profile
-    }
+    },
+    {
+        path: '/404',
+        name: 'NotFound',
+        component: NotFound,
+    },
+    { path: '/:pathMatch(.*)*', component: NotFound }
 ]
 
 const router = createRouter({
