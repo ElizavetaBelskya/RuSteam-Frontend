@@ -6,6 +6,7 @@ import Error from './views/ErrorPage.vue'
 import AppDescription from "@/views/AppDescriptionPage.vue";
 import Profile from '@/views/ProfilePage.vue'
 import NotFound from '@/views/NotFound.vue';
+import DeveloperProfile from "@/views/DeveloperProfile.vue";
 const routes = [
     {
         path: '/',
@@ -31,6 +32,11 @@ const routes = [
         path: '/app/:appId',
         name: 'app',
         component: AppDescription
+    },
+    {
+        path: '/developer/:developerId',
+        name: 'developer',
+        component: DeveloperProfile
     },
     {
         path: '/profile',

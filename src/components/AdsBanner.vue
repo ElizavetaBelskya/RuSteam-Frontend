@@ -26,27 +26,24 @@
 <script>
 export default {
   name: "AdsBanner",
-  data() {
-    return {
-      image1 : '',
-      image2: '',
-      image3: ''
-    }
-  },
   mounted() {
-    this.adjustImageSizes();
+    window.addEventListener("load", this.adjustImageSizes);
     window.addEventListener("resize", this.adjustImageSizes);
   },
-  beforeUnmount() {
+  beforeUnmounted() {
     window.removeEventListener("resize", this.adjustImageSizes);
   },
   methods: {
     adjustImageSizes() {
       const images = this.$el.querySelectorAll(".carousel-item img");
-      const smallestSize = Math.min(...Array.from(images).map((img) => img.naturalHeight));
+      const smallestHeight = Math.min(...Array.from(images).map((img) => img.naturalHeight));
+      const smallestWidth = Math.min(...Array.from(images).map((img) => img.naturalWidth));
       Array.from(images).forEach((img) => {
-        img.style.height = smallestSize + "px";
-        img.style.width = "auto";
+        img.style.objectFit = "cover";
+        img.style.objectPosition = "center";
+        img.style.overflow = "hidden";
+        img.style.height = smallestHeight + "px";
+        img.style.width = smallestWidth + "px";
       });
     },
   },
@@ -54,12 +51,6 @@ export default {
 </script>
 
 <style scoped>
-
-.carousel-item {
-  min-height: 200px;
-  max-height: 400px;
-  overflow: hidden; /* для обрезки изображений, если они превышают заданную высоту */
-}
 
 
 #banner-carousel {

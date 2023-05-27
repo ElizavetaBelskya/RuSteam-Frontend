@@ -3,11 +3,11 @@
     <div id = "container">
       <div class ="app-item">
         <div class ="app-cell">
-          <img :src = "image" alt="app image" class ="app-item-image"/>
+          <img src = "https://lh6.googleusercontent.com/proxy/Qd6fxx9vlyBGBuDh3PwpY3Bk4tbojehJl4hMkBP91hXXpkGwqygME6MTUsTjk1wDEtrp79rP8zlvNIWv7QIfRk-zWNfhYaOg60t1lpdgZCeIBadVRyQ5A9dtbuG7VYS2mXTc-Df5prYfPcM_hKzw=s0-d" alt="app image" class ="app-item-image"/>
         </div>
         <div class = "app-info">
           <h3 class = "app-item-title">{{ title }}</h3>
-          <p class = "profile-description">{{ description }}</p>
+          <p class = "profile-description">{{ shortDescription }}</p>
           <router-link :to="{ name: 'app', params: { appId: id } }">
             <button type="button" class="btn btn-outline-info">Подробнее</button>
           </router-link>
@@ -26,6 +26,15 @@ export default {
     title: String,
     image: URL,
     description: String
+  },
+  data() {
+    return {
+      shortDescription: String
+    };
+  },
+  created() {
+    this.shortDescription = this.description.split('.').slice(0, 3).join('. ') + '.';
+
   }
 }
 </script>

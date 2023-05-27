@@ -35,6 +35,17 @@
         rounded="circle"
         @click="fetchData"
     ></v-pagination>
+
+    <div>
+      <h3>Paзработчик</h3>
+      <div class = "app-info">
+        <h3 class = "app-item-title">{{developerName}}</h3>
+        <p class = "profile-description">{{developerDescription}}</p>
+        <router-link :to="{ name: 'developer', params: { developerId: devId } }">
+          <button type="button" class="btn btn-outline-info">Подробнее о разработчике</button>
+        </router-link>
+      </div>
+    </div>
   </div>
 
 </div>
@@ -56,6 +67,9 @@ export default {
       reviews: [],
       page: 1,
       pagescount: 1,
+      devId: 1,
+      developerName: 'Великие разрабы',
+      developerDescription: 'Лучшая компания',
       embedUrl: "https://www.youtube.com/watch?v=1Bk_nqUQ0fc&ab_channel=AngryBirds",
       image1: "https://cdn.lifehacker.ru/wp-content/uploads/2023/02/5929657_cover_Angry-Birds-Classic_1677046740-640x320.jpg",
       image2: "https://www.ixbt.com/img/x780/n1/news/2022/3/4/Classic_key_web-lbox-1440x820-trans_large.jpg",
@@ -170,5 +184,24 @@ h2 {
   margin: 10px 0;
 }
 
+.app-info {
+  padding: 5%;
+}
 
+.app-item-title {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.profile-description {
+  margin-top: 1%;
+  margin-bottom: 3%;
+  font-size: 16px;
+}
+
+#des-text {
+  padding-right: 5%;
+  padding-left: 5%;
+  padding-bottom: 5%;
+}
 </style>

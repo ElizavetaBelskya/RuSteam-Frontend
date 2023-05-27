@@ -184,7 +184,6 @@ header {
   padding: 1% 15% 7%;
 }
 
-
 li {
   list-style-type: none;
   margin-bottom: 1%;
