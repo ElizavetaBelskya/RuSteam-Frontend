@@ -4,41 +4,46 @@
     <h1>{{ name }}</h1>
 
     <div>
-<!--      <img id ="main-img" src="../assets/angrybirds.png" width="400" height="400" alt="Angry birds">-->
-      <AppInfoBanner
-          :image1 = "image1"
-          :image2 = "image2"
-          :image3 = "image3"></AppInfoBanner>
       <div id="des-text">
+        <img id ="main-img" src="../assets/angrybirds.png" width="200" height="200" alt="Angry birds">
         <h3>Описание приложения</h3>
-        <p>{{ description }}
-        </p>
+        <p>{{ description }}</p>
       </div>
+      <hr>
       <div>
         <a :href="downloadLink" class="download-button" download="your-application.apk">Загрузить на Android</a>
         <a :href="downloadLink" class="download-button" download="your-application.apk">Загрузить на Windows</a>
       </div>
+      <hr>
+      <AppInfoBanner
+          :image1 = "image1"
+          :image2 = "image2"
+          :image3 = "image3"></AppInfoBanner>
+      <hr>
+      <VideoContainer :video-url="embedUrl"></VideoContainer>
+      <hr>
     </div>
-
-    <VideoContainer :video-url="embedUrl"></VideoContainer>
     <h3>Отзывы о приложении</h3>
     <div class="reviews-container">
-        <li
-            v-for="review in reviews" :key="review"
-        >
-          <ReviewForDescription nickname="User1223" :rating="review.rating" :text = "review.text" />
+      <template v-if="reviews.length > 0">
+        <li v-for="review in reviews" :key="review">
+          <ReviewForDescription nickname="Anon" :rating="review.rating" :text="review.text" />
         </li>
+        <v-pagination
+            v-model="page"
+            :length="pagescount"
+            rounded="circle"
+            @click="fetchData"
+        ></v-pagination>
+      </template>
+      <template v-else>
+        <p>На данный момент отзывы отсутствуют</p>
+      </template>
     </div>
-    <v-pagination
-        v-model="page"
-        :length="pagescount"
-        rounded="circle"
-        @click="fetchData"
-    ></v-pagination>
-
+    <hr>
     <div>
-      <h3>Paзработчик</h3>
       <div class = "app-info">
+        <h3>Paзработчик</h3>
         <h3 class = "app-item-title">{{developerName}}</h3>
         <p class = "profile-description">{{developerDescription}}</p>
         <router-link :to="{ name: 'developer', params: { developerId: devId } }">
@@ -55,6 +60,7 @@
 import AppInfoBanner from "@/components/AppInfoBanner.vue";
 import VideoContainer from "@/components/VideoContainer.vue";
 import ReviewForDescription from "@/components/ReviewForDescription.vue";
+import axios from "axios";
 
 export default {
   name: "AppDescription",
@@ -70,7 +76,7 @@ export default {
       devId: 1,
       developerName: 'Великие разрабы',
       developerDescription: 'Лучшая компания',
-      embedUrl: "https://www.youtube.com/watch?v=1Bk_nqUQ0fc&ab_channel=AngryBirds",
+      embedUrl: "https://www.youtube.com/watch?v=BHW-yu173l8",
       image1: "https://cdn.lifehacker.ru/wp-content/uploads/2023/02/5929657_cover_Angry-Birds-Classic_1677046740-640x320.jpg",
       image2: "https://www.ixbt.com/img/x780/n1/news/2022/3/4/Classic_key_web-lbox-1440x820-trans_large.jpg",
       image3: "https://cdn.lifehacker.ru/wp-content/uploads/2023/02/Eg0ZtclFkNKbL4YpppNgNbXzu_VmoSw9_1677046817-1280x640.jpg",
@@ -87,7 +93,7 @@ export default {
 
   methods: {
     loadApplicationDetails(id) {
-      fetch('http://localhost:80/applications/' + id, {
+      fetch(axios.defaults.baseURL + 'applications/' + id, {
         method: 'GET',
       }).then(res => res.json())
           .then(res => {
@@ -98,7 +104,7 @@ export default {
 
     fetchData: function () {
         let pageId = this.page - 1
-        fetch('http://localhost:80/reviews?page=' + pageId + '&applicationId=' + this.appId, {
+        fetch(axios.defaults.baseURL + 'reviews?page=' + pageId + '&applicationId=' + this.appId, {
           method: 'GET'
         }).then(res => res.json())
             .then(res => {
@@ -128,7 +134,7 @@ export default {
 
 .app-container {
   color: white;
-  margin: 5%;
+  margin: 1% 5% 5%;
   text-align: center;
   background-color: rgba(8, 0, 28, 0.85);
   opacity: 0.9;
@@ -194,7 +200,6 @@ h2 {
 }
 
 .profile-description {
-  margin-top: 1%;
   margin-bottom: 3%;
   font-size: 16px;
 }
@@ -204,4 +209,9 @@ h2 {
   padding-left: 5%;
   padding-bottom: 5%;
 }
+
+#main-img {
+  border-radius: 10%;
+}
+
 </style>

@@ -1,4 +1,5 @@
 <template>
+  <h3>Трейлер</h3>
   <div class="video-container">
     <iframe :src="embedUrl" width="560" height="315" allowfullscreen></iframe>
   </div>
@@ -32,7 +33,7 @@ export default {
 
 .video-container iframe {
   position: absolute;
-  padding: 10%;
+  padding: 5%;
   top: 0;
   left: 0;
   width: 100%;

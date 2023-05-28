@@ -17,8 +17,6 @@
         <span class="text-h5">Войти в аккаунт</span>
       </v-card-title>
 
-
-
       <div class="mb-3">
         <label for="email" class="form-label">Ваш email</label>
         <input type="email" v-model="email" class="form-control" id="email" required>
@@ -27,23 +25,21 @@
         <label for="password" class="form-label">Пароль</label>
         <input type="password" v-model = "password" class="form-control" id="password" required>
       </div>
-
-
       <v-card-actions>
-        <v-spacer></v-spacer>
+        <v-spacer>{{ message }}</v-spacer>
         <button
             type="button"
             class="btn btn-outline-info"
             @click="dialog = false"
         >
-          Close
+          Закрыть
         </button>
         <button
             type="button"
             class="btn btn-outline-info"
-            @click="dialog = false"
+            @click="login"
         >
-          Save
+          Войти
         </button>
       </v-card-actions>
     </v-card>
@@ -51,11 +47,45 @@
 </template>
 
 <script>
+import axios from "axios";
+import router from "@/router";
+
 export default {
   name: "LoginDialog",
   data: () => ({
+    email: '',
+    password: '',
     dialog: false,
-  })
+    message:  ''
+  }),
+  methods: {
+    async login() {
+
+      await axios.post('auth/login', {
+        email: this.email,
+        password: this.password
+      }, {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      }).then(response => {
+        console.log(response)
+        localStorage.setItem('accessToken', response.data.accessToken)
+        localStorage.setItem('refreshToken', response.data.refreshToken)
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.accessToken;
+        router.push('/profile')}
+      ).catch(error => {
+        if (error.response.status === 401) {
+          this.message = 'Ошибка авторизации: неправильный email или пароль'
+        } else if (error.response.status === 403) {
+          this.message = 'У вас нет прав доступа'
+        } else {
+          this.message = 'Ошибка авторизации'
+        }
+      })
+
+    }
+  }
 }
 </script>
 
@@ -94,6 +124,4 @@ export default {
 
 
 }
-
-
 </style>

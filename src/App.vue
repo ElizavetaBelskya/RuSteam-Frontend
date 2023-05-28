@@ -33,7 +33,7 @@ export default ({
 
 @media (max-width: 500px) {
   #main-logo {
-    width: 80%;
+    width: 40%;
     height: auto;
   }
 }

@@ -58,6 +58,7 @@ import FilterChip from "@/components/FilterChip.vue";
 import SelectFilter from "@/components/SelectFilter.vue";
 import AdsBanner from "@/components/AdsBanner.vue";
 import LoginInvitation from "@/components/LoginInvitation.vue";
+import axios from "axios";
 
 export default {
   name: "AppListPage",
@@ -81,7 +82,7 @@ export default {
     fetchData: function() {
       if (this.searchTerm === '') {
         let pageId = this.page - 1
-        fetch('http://localhost:80/applications?page=' + pageId, {
+        fetch(axios.defaults.baseURL + 'applications?page=' + pageId, {
           method: 'GET'
         }).then(res => res.json())
             .then(res => {
@@ -94,7 +95,7 @@ export default {
     },
 
     search() {
-      fetch('http://localhost:80/applications/search?content='
+      fetch(axios.defaults.baseURL + 'applications/search?content='
           + this.searchTerm + "&page=" + 1, {
         method: 'GET'
       }).then(res => res.json())
@@ -110,7 +111,7 @@ export default {
     searchTerm: function() {
       if (this.searchTerm === '') {
         let pageId = this.page - 1
-        fetch('http://localhost:80/applications?page=' + pageId, {
+        fetch(axios.defaults.baseURL + 'applications?page=' + pageId, {
           method: 'GET'
         }).then(res => res.json())
             .then(res => {
@@ -124,7 +125,7 @@ export default {
   },
   created() {
     let pageId = this.page - 1
-    fetch('http://localhost:80/applications?page=' + pageId, {
+    fetch(axios.defaults.baseURL + 'applications?page=' + pageId, {
       method: 'GET',
     }).then(res => res.json())
         .then(res => {

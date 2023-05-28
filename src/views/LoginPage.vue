@@ -20,6 +20,7 @@
 <script>
 import AdsBanner from "@/components/AdsBanner.vue";
 import axios from "axios";
+import router from "@/router";
 
 
 export default {
@@ -34,6 +35,7 @@ export default {
   components: {AdsBanner},
   methods: {
     async onLoginClick() {
+      delete axios.defaults.headers.common['Authorization']
       const response = await axios.post('auth/login', {
         email: this.email,
         password: this.password
@@ -43,9 +45,13 @@ export default {
         }
       });
 
-      console.log(response)
-
-      localStorage.setItem("token", response.data.token)
+      if (response.status === 200) {
+        console.log(response)
+        localStorage.setItem('accessToken', response.data.accessToken)
+        localStorage.setItem('refreshToken', response.data.refreshToken)
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.accessToken;
+        await router.push('/profile')
+      }
 
     }
   }

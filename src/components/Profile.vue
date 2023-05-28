@@ -18,9 +18,6 @@
             <li>
               <button type="button" class="btn btn-outline-info">Редактировать информацию</button>
             </li>
-            <li>
-              <button type="button" class="btn btn-outline-info">Сменить пароль</button>
-            </li>
 
             <li>
               <button id = "delete-profile-btn" type="button" class="btn btn-outline-info">Удалить аккаунт</button>

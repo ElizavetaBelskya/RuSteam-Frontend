@@ -34,6 +34,7 @@
 </template>
 <script>
 import AppListItem from "@/components/AppListItem.vue";
+import axios from "axios";
 
 export default {
   name: "DeveloperProfile",
@@ -51,7 +52,7 @@ export default {
   methods: {
     fetchData: function () {
         let pageId = this.page - 1
-        fetch('http://localhost:80/developers/' + this.id + "/applications?page=" + pageId, {
+        fetch(axios.defaults.baseURL + 'developers/' + this.id + "/applications?page=" + pageId, {
           method: 'GET'
         }).then(res => res.json())
             .then(res => {
@@ -62,7 +63,7 @@ export default {
   },
   created() {
     let pageId = this.page - 1
-    fetch('http://localhost:80/developers/' + this.id + "/applications?page=" + pageId,  {
+    fetch(axios.defaults.baseURL + 'developers/' + this.id + "/applications?page=" + pageId,  {
       method: 'GET',
     }).then(res => res.json())
         .then(res => {
