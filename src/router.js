@@ -61,7 +61,8 @@ const routes = [
     {
       path: '/edit_user',
       name: 'EditUser',
-      component: UserEditorPage
+      component: UserEditorPage,
+        meta: { requiresAuth: true }
     },
     {
         path: '/404',

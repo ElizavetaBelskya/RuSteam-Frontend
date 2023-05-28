@@ -2,8 +2,7 @@
   <div class = "review">
     <h6>Ваша оценка приложения</h6>
     <v-rating
-        :value="rating"
-        @input="updateRating"
+        :v-model="apprating"
         bg-color="orange-lighten-1"
         color="blue"
     ></v-rating>
@@ -30,12 +29,13 @@ export default {
   name: "UserReview",
   props: {
     text: String,
-    rating: {
-      type: Number,
-      required: true
+    rating: Number
+  },
+  data() {
+    return {
+      apprating: this.rating
     }
   },
-
   methods: {
     updateRating(newRating) {
       this.$emit('update:rating', newRating);

@@ -1,12 +1,12 @@
 <template>
-  <form id="form" @submit.prevent="onRegisterClick">
+  <form id="form" @submit.prevent="updateUser">
     <div class="mb-3">
       <label for="name" class="form-label">Ваше имя</label>
       <input type="text" v-model="name" class="form-control" id="name" placeholder="Имя">
     </div>
     <div class="mb-3">
       <label for="surname" class="form-label">Ваша фамилия</label>
-      <input type="text" v-model="name" class="form-control" id="surname" placeholder="Фамилия">
+      <input type="text" v-model="surname" class="form-control" id="surname" placeholder="Фамилия">
     </div>
 
     <div class="mb-3">
@@ -21,7 +21,7 @@
             type="radio"
             class="form-check-input"
             id="male"
-            value="male" checked="true"
+            value="MALE" checked="true"
             v-model="gender"
         />
         <label class="form-check-label" for="male">Мужской</label>
@@ -31,7 +31,7 @@
             type="radio"
             class="form-check-input"
             id="female"
-            value="female"
+            value="FEMALE"
             v-model="gender"
         />
         <label class="form-check-label" for="female">Женский</label>
@@ -39,8 +39,6 @@
     </div>
 
     <button type="submit" class="btn btn-outline-info" id="register-btn">Сохранить</button>
-    <router-link to="/profile" type="button" id="miss-btn"
-                 class="btn btn-outline-info">Пропустить</router-link>
   </form>
 
 </template>
@@ -48,42 +46,71 @@
 <script>
 
 
+import {getAccount, getRefreshToken} from "@/plugins/token";
 import axios from "axios";
+import router from "@/router";
 
 export default {
   name: "UserRegistrationPage",
   data() {
     return {
+      id: 0,
+      email: '',
+      nickname: '',
       birthday_date: '',
       name: '',
       surname: '',
       gender: ''
     }
   },
-  methods: {
-    async onRegisterClick() {
-      axios.defaults.headers.common['Authorization'] = 'Bearer ' +
-          localStorage.getItem('accessToken');
-      axios.post("users",
-          {
-            birthday_date: this.birthday_date,
-            name: this.name,
-            surname: this.surname,
-            gender: this.gender
-          }).then(response => {
-        if (response.ok) {
-          console.log('Обновление прошло успешно');
-        } else {
-          console.error('Ошибка при обновлении');
-        }
-      }).catch(
-          error => {
-            console.error('Ошибка сети:', error);
-          }
-      );
+  created() {
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('accessToken');
+    this.getInfo();
+  },
 
+  methods: {
+
+    async getInfo() {
+      try {
+        const account = await getAccount();
+        this.id = account.accountInfo.id;
+        this.email = account.accountInfo.email;
+        this.nickname = account.accountInfo.nickname;
+        this.name = account.userInfo.name;
+        this.surname = account.userInfo.surname;
+        this.gender = account.userInfo.gender;
+        this.birthdayDate = account.userInfo.birthdayDate;
+      } catch (error) {
+        console.error('Ошибка при выполнении запроса:', error);
+      }
+    },
+    async updateUser() {
+        await axios.post('users', {
+          accountId: this.id,
+          name: this.name,
+          surname: this.surname,
+          gender: this.gender,
+          birthdayDate: this.birthdayDate
+        }, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }).then(() => {
+          router.push('/profile')
+        }).catch(error => {
+          if (error.response && error.response.status === 401) {
+            const tokenResponse = getRefreshToken();
+            if (tokenResponse.status === 200) {
+              return this.updateUser();
+            }
+          } else {
+            router.push('/error');
+            console.error('Ошибка при выполнении запроса:', error);
+          }
+        }
+        )
+      }
     }
-  }
 }
 </script>
 

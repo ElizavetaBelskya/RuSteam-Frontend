@@ -16,11 +16,14 @@
         <div class="crud-buttons">
           <ul>
             <li>
-              <router-link to="/register_user" type="button" class="btn btn-outline-info">Редактировать информацию</router-link>
+              <router-link to="/edit_user" type="button" class="btn btn-outline-info">Редактировать информацию</router-link>
             </li>
 
             <li>
-              <button id = "delete-profile-btn" type="button" class="btn btn-outline-info">Удалить аккаунт</button>
+              <button id = "delete-profile-btn" @click="deleteUser" type="button" class="btn btn-outline-info">Удалить аккаунт</button>
+            </li>
+            <li>
+              <button id = "delete-profile-btn" @click="logout" type="button" class="btn btn-outline-info">Выйти</button>
             </li>
           </ul>
         </div>
@@ -31,9 +34,13 @@
 
 <script>
 
+import axios from "axios";
+import router from "@/router";
+
 export default {
   name: "ProfileInfo",
   props: {
+    id: Number,
     email: String,
     name: String,
     surname: String,
@@ -41,6 +48,22 @@ export default {
     birthtime: Date,
     nickname: String,
     avatar: URL
+  },
+  methods: {
+    async deleteUser() {
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('accessToken');
+      await axios.delete('accounts/' + this.id)
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      await router.push('/')
+    },
+    async logout() {
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('accessToken');
+      await axios.post('auth/logout');
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      await router.push('/')
+    }
   }
 }
 </script>

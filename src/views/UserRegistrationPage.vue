@@ -1,5 +1,5 @@
 <template>
-  <form id="form" @submit.prevent="onRegisterClick">
+  <form id="form" @submit.prevent="updateUser">
     <h4 id = "appeal">Заполнение этой информации является необязательным, но помогает нам в анализе потребностей наших пользователей</h4>
     <div class="mb-3">
       <label for="name" class="form-label">Ваше имя</label>
@@ -22,7 +22,7 @@
             type="radio"
             class="form-check-input"
             id="male"
-            value="male" checked="true"
+            value="MALE" checked="true"
             v-model="gender"
         />
         <label class="form-check-label" for="male">Мужской</label>
@@ -31,7 +31,7 @@
         <input
             type="radio"
             class="form-check-input"
-            id="female"
+            id="FEMALE"
             value="female"
             v-model="gender"
         />
@@ -50,6 +50,8 @@
 
 
 import axios from "axios";
+import router from "@/router";
+import {getRefreshToken} from "@/plugins/token";
 
 export default {
   name: "UserRegistrationPage",
@@ -61,29 +63,38 @@ export default {
       gender: ''
     }
   },
+  created() {
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('accessToken');
+  },
   methods: {
-    async onRegisterClick() {
-
-      axios.post("users",
-          {
-            birthday_date: this.birthday_date,
-            name: this.name,
-            surname: this.surname,
-            gender: this.gender
-          }).then(response => {
-        if (response.ok) {
-          console.log('Регистрация прошла успешно');
-        } else {
-          console.error('Ошибка при регистрации');
+    async updateUser() {
+      await axios.post('users', {
+        accountId: this.id,
+        name: this.name,
+        surname: this.surname,
+        gender: this.gender,
+        birthdayDate: this.birthdayDate
+      }, {
+        headers: {
+          'Content-Type': 'application/json'
         }
-      }).catch(
-          error => {
-            console.error('Ошибка сети:', error);
+      }).then(() => {
+        router.push('/profile')
+      }).catch(error => {
+            if (error.response && error.response.status === 401) {
+              const tokenResponse = getRefreshToken();
+              if (tokenResponse.status === 200) {
+                return this.updateUser();
+              }
+            } else {
+              router.push('/error');
+              console.error('Ошибка при выполнении запроса:', error);
+            }
           }
-      );
-
+      )
     }
   }
+
 }
 </script>
 

@@ -54,7 +54,7 @@ export async function getAccount() {
                 return getAccount();
             }
         } else {
-            router.push('/error');
+            await router.push('/error');
             console.error('Ошибка при выполнении запроса:', error);
         }
     }

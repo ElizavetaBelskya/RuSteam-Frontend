@@ -8,8 +8,9 @@
         <div class = "app-info">
           <h3 class = "app-item-title">{{ title }}</h3>
           <p class = "profile-description">{{ description }}</p>
-          <button type="button" class="btn btn-outline-info">Подробнее</button>
-          <ReviewDialog/>
+          <router-link :to="{ name: 'app', params: { appId: applicationId } }">
+            <button type="button" class="btn btn-outline-info">Подробнее</button>
+          </router-link>
         </div>
         <UserReview :rating="rating" :text="text"/>
       </div>
@@ -19,25 +20,29 @@
 
 <script>
 import UserReview from "@/components/UserReview.vue";
-import ReviewDialog from "@/components/ReviewDialog.vue";
+import axios from "axios";
 
 export default {
   name: "UserAppItem",
-  components: {UserReview, ReviewDialog},
+  components: {UserReview},
   props: {
-    title: String,
-    image: URL,
-    description: String,
+    applicationId: Number,
     text: String,
-    rating: {
-      type: Number,
-      required: true
-    }
+    rating: Number
   },
   data() {
-
+    return {
+      title: String,
+      image: 'https://play-lh.googleusercontent.com/1IZ94fIVSMGGTAM5xYLe-ZfMvtlkT91mx41-f8tG-Ge_wRoSeufxW92DShQpErX4GAci',
+      description: String,
+    }
   },
-
+  async created() {
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('accessToken');
+    const response = await axios.get('applications/' + this.applicationId);
+    this.title = response.data.name
+    this.description = response.data.description.split('.').slice(0, 2).join('. ') + '.';
+  },
   methods: {
 
   }
@@ -52,6 +57,7 @@ export default {
   align-items: center;
   justify-content: center;
   color: white;
+  margin-bottom: 2%;
 }
 
 

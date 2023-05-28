@@ -60,7 +60,7 @@ export default {
   }),
   methods: {
     async login() {
-
+      delete axios.defaults.headers.common['Authorization']
       await axios.post('auth/login', {
         email: this.email,
         password: this.password
