@@ -9,6 +9,7 @@ import NotFound from '@/views/NotFound.vue';
 import DeveloperProfile from "@/views/DeveloperProfile.vue";
 import AccountEditorPage from "@/views/AccountEditorPage.vue";
 import UserRegistrationPage from "@/views/UserRegistrationPage.vue";
+import UserEditorPage from "@/views/UserEditorPage.vue";
 const routes = [
     {
         path: '/',
@@ -56,6 +57,11 @@ const routes = [
         path: '/register_user',
         name: 'RegisterUser',
         component: UserRegistrationPage
+    },
+    {
+      path: '/edit_user',
+      name: 'EditUser',
+      component: UserEditorPage
     },
     {
         path: '/404',

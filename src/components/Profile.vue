@@ -16,7 +16,7 @@
         <div class="crud-buttons">
           <ul>
             <li>
-              <button type="button" class="btn btn-outline-info">Редактировать информацию</button>
+              <router-link to="/register_user" type="button" class="btn btn-outline-info">Редактировать информацию</router-link>
             </li>
 
             <li>
@@ -30,6 +30,7 @@
 </template>
 
 <script>
+
 export default {
   name: "ProfileInfo",
   props: {
