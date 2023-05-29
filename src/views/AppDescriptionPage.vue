@@ -41,6 +41,7 @@
       </template>
     </div>
     <hr>
+    <CreateReviewDialog :application-id="appId"/>
     <div>
       <div class = "app-info">
         <h3>Paзработчик</h3>
@@ -61,12 +62,14 @@ import AppInfoBanner from "@/components/AppInfoBanner.vue";
 import VideoContainer from "@/components/VideoContainer.vue";
 import ReviewForDescription from "@/components/ReviewForDescription.vue";
 import axios from "axios";
+import CreateReviewDialog from "@/components/CreateReviewDialog.vue";
 
 export default {
   name: "AppDescription",
-  components: {AppInfoBanner, VideoContainer, ReviewForDescription},
+  components: {CreateReviewDialog, AppInfoBanner, VideoContainer, ReviewForDescription},
   data() {
     return {
+      isAuthenticated : true,
       name: '',
       description: '',
       appId: Number,

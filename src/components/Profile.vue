@@ -59,7 +59,7 @@ export default {
     },
     async logout() {
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('accessToken');
-      await axios.post('auth/logout');
+      await axios.post('auth/token/revoke');
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
       await router.push('/')

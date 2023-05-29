@@ -31,13 +31,12 @@ export async function getRefreshToken() {
         } else {
             console.log('Ошибка при обновлении токена');
             localStorage.removeItem('refreshToken');
-            await router.push('/login');
         }
         return res;
     } catch (refreshError) {
         localStorage.removeItem('accessToken');
         console.error('Ошибка при обновлении токена:', refreshError);
-        await router.push('/login');
+        return refreshError;
     }
 }
 
@@ -52,6 +51,8 @@ export async function getAccount() {
             const tokenResponse = await getRefreshToken();
             if (tokenResponse.status === 200) {
                 return getAccount();
+            } else {
+                return tokenResponse;
             }
         } else {
             await router.push('/error');
