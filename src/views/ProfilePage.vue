@@ -10,10 +10,12 @@
     <li
         v-for="review in reviews" :key="review"
     >
-      <UserAppItem
+      <UserAppItem @updated="getInfo"
+          :review-id="review.id"
           :application-id="review.applicationId"
           :rating="review.rating"
           :text="review.text"
+          :status="review.status"
       />
     </li>
   </ul>

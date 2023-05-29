@@ -12,7 +12,7 @@
             <button type="button" class="btn btn-outline-info">Подробнее</button>
           </router-link>
         </div>
-        <UserReview :rating="rating" :text="text"/>
+        <UserReview @review-updated="update" :id="reviewId" :application-id="applicationId" :status="status" :rating="rating" :text="text"/>
       </div>
     </div>
   </div>
@@ -26,9 +26,11 @@ export default {
   name: "UserAppItem",
   components: {UserReview},
   props: {
+    reviewId: Number,
     applicationId: Number,
     text: String,
-    rating: Number
+    rating: Number,
+    status: String,
   },
   data() {
     return {
@@ -44,7 +46,9 @@ export default {
     this.description = response.data.description.split('.').slice(0, 2).join('. ') + '.';
   },
   methods: {
-
+    async update() {
+      this.$emit('updated');
+    }
   }
 }
 </script>
