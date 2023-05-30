@@ -9,6 +9,7 @@
         persistent-hint
         return-object
         single-line
+        @update:modelValue="update"
     >
 
     </v-select>
@@ -22,16 +23,20 @@ export default {
   name: "SelectFilter",
   data () {
     return {
-      select: { state: 'Cоциальные сети' },
+      select: { state: 'Любые' },
       items: [
-        { state: 'Cоциальные сети'},
-        { state: 'Образование'},
-        { state: 'Здоровье' },
-        { state: 'Финансы' },
-        { state: 'Игры' },
+        { state: 'Любые' },
+        { state: 'Шутеры' },
+        { state: 'Аркады' },
+        { state: 'Бизнес' },
       ],
     }
   },
+  methods: {
+    update() {
+      this.$emit('updated', this.select);
+    },
+  }
 }
 </script>
 

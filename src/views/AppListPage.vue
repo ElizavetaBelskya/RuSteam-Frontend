@@ -13,7 +13,7 @@
         </form>
       </div>
 
-      <SelectFilter id = "select"/>
+      <SelectFilter @updated="handleSelectUpdated" id = "select"></SelectFilter>
       <ul class = "filters">
         <li>
           <FilterChip @click="changePrice" titlePositive="Бесплатные" titleNegative="+ только бесплатные"
@@ -72,6 +72,7 @@ export default {
   },
   data() {
     return {
+      category: 'null',
       rating: 0.0,
       isNew: 'false',
       price: -1,
@@ -82,22 +83,29 @@ export default {
     }
   },
   methods: {
+    handleSelectUpdated(value) {
+      this.category = value.state;
+      this.fetchData();
+    },
     changeIsNew() {
+      this.page = 1
       this.isNew = this.isNew === 'false'? 'true': 'false';
       this.fetchData();
     },
     changePrice() {
+      this.page = 1
       this.price = this.price === 0? -1: 0;
       this.fetchData();
     },
     changeRating() {
+      this.page = 1
       this.rating = this.rating === 0.0? 4.0 : 0.0
       this.fetchData();
     },
     fetchData: function() {
       if (this.searchTerm === '') {
         let pageId = this.page - 1
-        fetch(axios.defaults.baseURL + 'applications?page=' + pageId + '&new=' + this.isNew + '&rating=' + this.rating + '&price=' + this.price, {
+        fetch(axios.defaults.baseURL + 'applications?page=' + pageId + '&new=' + this.isNew + '&rating=' + this.rating + '&price=' + this.price + '&category=' + this.category, {
           method: 'GET'
         }).then(res => res.json())
             .then(res => {
