@@ -34,6 +34,7 @@
 <script>
 import Invitation from "@/components/Invitation.vue";
 import axios from "axios";
+import router from "@/router";
 
 export default {
   name: "RegistrationPage",
@@ -55,18 +56,17 @@ export default {
             nickname: this.nickname,
             password: this.password
           }).then(response => {
-        if (response.ok) {
+        if (response.status === 201) {
           console.log('Регистрация прошла успешно');
+          this.login();
         } else {
           console.error('Ошибка при регистрации');
         }
-      }).catch (
+      }).catch(
           error => {
             console.error('Ошибка сети:', error);
           }
       );
-
-
 
       //  fetch("http://localhost:80/accounts", {
       //   method: 'POST',
@@ -88,6 +88,33 @@ export default {
       //  }).catch(error => {
       //    console.error('Ошибка сети:', error);
       //  });
+
+    },
+
+    async login() {
+      delete axios.defaults.headers.common['Authorization']
+      await axios.post('auth/login', {
+        email: this.email,
+        password: this.password
+      }, {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      }).then(response => {
+            console.log(response)
+            localStorage.setItem('accessToken', response.data.accessToken)
+            localStorage.setItem('refreshToken', response.data.refreshToken)
+            axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.accessToken;
+            router.push('/ask');
+      }).catch(error => {
+        if (error.response.status === 401) {
+          this.message = 'Ошибка авторизации: неправильный email или пароль'
+        } else if (error.response.status === 403) {
+          this.message = 'У вас нет прав доступа'
+        } else {
+          this.message = 'Ошибка авторизации'
+        }
+      })
 
     }
   }

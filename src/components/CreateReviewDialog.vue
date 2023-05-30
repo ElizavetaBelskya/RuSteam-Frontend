@@ -14,7 +14,7 @@
 
       <div class="mb-3">
         <label for="review" class="form-label">Ваш отзыв</label>
-        <textarea class="form-control" rows="5" id="review" v-model="newText"></textarea>
+        <textarea class="form-control" rows="5" id="review" required v-model="newText"></textarea>
       </div>
 
       <v-card-actions>
@@ -32,7 +32,7 @@
 
 <script>
 import axios from "axios";
-import {getAccount} from "@/plugins/token";
+import {getAccount, getDeveloperAccount} from "@/plugins/token";
 
 export default {
   name: "CreateReviewDialog",
@@ -44,15 +44,16 @@ export default {
     return {
       authorId: Number,
       dialog: false,
-      newRating: 0,
+      newRating: 5,
       newText: '',
-      isVisible: false
+      isVisible: true
     }
   },
   async created() {
-    const account_res = await getAccount();
-    if (account_res.status === 200) {
-      this.isVisible = true
+    const account_res = await getDeveloperAccount();
+    console.log(account_res)
+    if (!isNaN(account_res)) {
+      this.isVisible = true;
     } else {
       this.isVisible = false;
     }

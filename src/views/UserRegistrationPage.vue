@@ -7,7 +7,7 @@
     </div>
     <div class="mb-3">
       <label for="surname" class="form-label">Ваша фамилия</label>
-      <input type="text" v-model="name" class="form-control" id="surname" placeholder="Фамилия">
+      <input type="text" v-model="surname" class="form-control" id="surname" placeholder="Фамилия">
     </div>
 
     <div class="mb-3">
@@ -22,7 +22,7 @@
             type="radio"
             class="form-check-input"
             id="male"
-            value="MALE" checked="true"
+            value="MALE"
             v-model="gender"
         />
         <label class="form-check-label" for="male">Мужской</label>
@@ -31,13 +31,14 @@
         <input
             type="radio"
             class="form-check-input"
-            id="FEMALE"
-            value="female"
+            id="female"
+            value="FEMALE"
             v-model="gender"
         />
         <label class="form-check-label" for="female">Женский</label>
       </div>
     </div>
+
 
     <button type="submit" class="btn btn-outline-info" id="register-btn">Сохранить</button>
     <router-link to="/profile" type="button" id="miss-btn"
@@ -51,20 +52,22 @@
 
 import axios from "axios";
 import router from "@/router";
-import {getRefreshToken} from "@/plugins/token";
+import {getDeveloperAccount, getRefreshToken} from "@/plugins/token";
 
 export default {
   name: "UserRegistrationPage",
   data() {
     return {
+      id: Number,
       birthday_date: '',
       name: '',
       surname: '',
-      gender: ''
+      gender: 'MALE'
     }
   },
-  created() {
+  async created() {
     axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('accessToken');
+    this.id = await getDeveloperAccount()
   },
   methods: {
     async updateUser() {

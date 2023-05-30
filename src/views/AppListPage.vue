@@ -16,14 +16,14 @@
       <SelectFilter id = "select"/>
       <ul class = "filters">
         <li>
-          <FilterChip titlePositive="Бесплатные" titleNegative="+ только бесплатные"
+          <FilterChip @click="changePrice" titlePositive="Бесплатные" titleNegative="+ только бесплатные"
           />
         </li>
         <li>
-          <FilterChip titlePositive="Новинки" titleNegative="+ новинки"/>
+          <FilterChip @click="changeIsNew" titlePositive="Новинки" titleNegative="+ новинки"/>
         </li>
         <li>
-          <FilterChip titlePositive="Высокий рейтинг" titleNegative="+ высокий рейтинг"/>
+          <FilterChip @click="changeRating" titlePositive="Высокий рейтинг" titleNegative="+ высокий рейтинг"/>
         </li>
       </ul>
 
@@ -72,6 +72,9 @@ export default {
   },
   data() {
     return {
+      rating: 0.0,
+      isNew: 'false',
+      price: -1,
       searchTerm: "",
       page: 1,
       pagescount: 1,
@@ -79,10 +82,22 @@ export default {
     }
   },
   methods: {
+    changeIsNew() {
+      this.isNew = this.isNew === 'false'? 'true': 'false';
+      this.fetchData();
+    },
+    changePrice() {
+      this.price = this.price === 0? -1: 0;
+      this.fetchData();
+    },
+    changeRating() {
+      this.rating = this.rating === 0.0? 4.0 : 0.0
+      this.fetchData();
+    },
     fetchData: function() {
       if (this.searchTerm === '') {
         let pageId = this.page - 1
-        fetch(axios.defaults.baseURL + 'applications?page=' + pageId, {
+        fetch(axios.defaults.baseURL + 'applications?page=' + pageId + '&new=' + this.isNew + '&rating=' + this.rating + '&price=' + this.price, {
           method: 'GET'
         }).then(res => res.json())
             .then(res => {

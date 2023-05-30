@@ -10,6 +10,7 @@ import DeveloperProfile from "@/views/DeveloperProfile.vue";
 import AccountEditorPage from "@/views/AccountEditorPage.vue";
 import UserRegistrationPage from "@/views/UserRegistrationPage.vue";
 import UserEditorPage from "@/views/UserEditorPage.vue";
+import DeveloperRegistrationPage from "@/views/DeveloperRegistrationPage.vue";
 const routes = [
     {
         path: '/',
@@ -57,6 +58,11 @@ const routes = [
         path: '/register_user',
         name: 'RegisterUser',
         component: UserRegistrationPage
+    },
+    {
+        path: '/register_developer',
+        name: 'RegisterDeveloper',
+        component: DeveloperRegistrationPage
     },
     {
       path: '/edit_user',

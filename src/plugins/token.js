@@ -40,6 +40,24 @@ export async function getRefreshToken() {
     }
 }
 
+export async function getDeveloperAccount() {
+    try {
+        return await getAccountId();
+    } catch (error) {
+        if (error.response && error.response.status === 401) {
+            const tokenResponse = await getRefreshToken();
+            if (tokenResponse.status === 200) {
+                return getDeveloperAccount();
+            } else {
+                return tokenResponse;
+            }
+        } else {
+            await router.push('/error');
+            console.error('Ошибка при выполнении запроса:', error);
+        }
+    }
+}
+
 export async function getAccount() {
     try {
         const accountId = await getAccountId();
