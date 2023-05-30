@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     async onRegisterClick() {
-
+      delete axios.defaults.headers.common['Authorization']
       axios.post("accounts",
           {
             email: this.email,

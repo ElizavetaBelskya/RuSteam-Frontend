@@ -19,6 +19,11 @@ export async function getUserInfo(id) {
     return response.data;
 }
 
+export async function getDevInfo(id) {
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('accessToken');
+    const response = await axios.get('developers/' + id);
+    return response.data;
+}
 export async function getRefreshToken() {
     try {
         const token = localStorage.getItem('refreshToken');
@@ -48,6 +53,27 @@ export async function getDeveloperAccount() {
             const tokenResponse = await getRefreshToken();
             if (tokenResponse.status === 200) {
                 return getDeveloperAccount();
+            } else {
+                return tokenResponse;
+            }
+        } else {
+            await router.push('/error');
+            console.error('Ошибка при выполнении запроса:', error);
+        }
+    }
+}
+
+export async function getDeveloper() {
+    try {
+        const accountId = await getAccountId();
+        const accountInfo = await getAccountInfo(accountId);
+        const devInfo = await getDevInfo(accountId);
+        return {accountInfo, devInfo};
+    } catch (error) {
+        if (error.response && error.response.status === 401) {
+            const tokenResponse = await getRefreshToken();
+            if (tokenResponse.status === 200) {
+                return getAccount();
             } else {
                 return tokenResponse;
             }

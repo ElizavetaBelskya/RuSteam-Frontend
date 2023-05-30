@@ -11,6 +11,7 @@ import AccountEditorPage from "@/views/AccountEditorPage.vue";
 import UserRegistrationPage from "@/views/UserRegistrationPage.vue";
 import UserEditorPage from "@/views/UserEditorPage.vue";
 import DeveloperRegistrationPage from "@/views/DeveloperRegistrationPage.vue";
+import DeveloperPersonalProfile from "@/views/DeveloperPersonalProfile.vue";
 const routes = [
     {
         path: '/',
@@ -68,6 +69,12 @@ const routes = [
       path: '/edit_user',
       name: 'EditUser',
       component: UserEditorPage,
+        meta: { requiresAuth: true }
+    },
+    {
+        path: '/developer_profile',
+        name: 'DeveloperPersonalProfile',
+        component: DeveloperPersonalProfile,
         meta: { requiresAuth: true }
     },
     {

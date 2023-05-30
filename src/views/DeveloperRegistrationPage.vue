@@ -46,7 +46,7 @@ export default {
           'Content-Type': 'application/json'
         }
       }).then(() => {
-        router.push('/profile')
+        router.push('/developer_profile')
       }).catch(error => {
             if (error.response && error.response.status === 401) {
               const tokenResponse = getRefreshToken();
