@@ -4,6 +4,7 @@ import router from "@/router";
 export async function getAccountInfo(id) {
     axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('accessToken');
     const response = await axios.get('accounts/' + id);
+    console.log(response)
     return response.data;
 }
 
@@ -11,6 +12,12 @@ export async function getAccountId() {
     axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('accessToken');
     const response = await axios.get('accounts/account_id');
     return response.data;
+}
+
+export async function getAccountIdResponse() {
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('accessToken');
+    const response = await axios.get('accounts/account_id');
+    return response;
 }
 
 export async function getUserInfo(id) {
@@ -73,7 +80,7 @@ export async function getDeveloper() {
         if (error.response && error.response.status === 401) {
             const tokenResponse = await getRefreshToken();
             if (tokenResponse.status === 200) {
-                return getAccount();
+                return getUserAccount();
             } else {
                 return tokenResponse;
             }
@@ -84,7 +91,7 @@ export async function getDeveloper() {
     }
 }
 
-export async function getAccount() {
+export async function getUserAccount() {
     try {
         const accountId = await getAccountId();
         const accountInfo = await getAccountInfo(accountId);
@@ -94,7 +101,7 @@ export async function getAccount() {
         if (error.response && error.response.status === 401) {
             const tokenResponse = await getRefreshToken();
             if (tokenResponse.status === 200) {
-                return getAccount();
+                return getUserAccount();
             } else {
                 return tokenResponse;
             }

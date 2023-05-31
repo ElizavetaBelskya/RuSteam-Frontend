@@ -46,7 +46,7 @@
 <script>
 
 
-import {getAccount, getRefreshToken} from "@/plugins/token";
+import {getUserAccount, getRefreshToken} from "@/plugins/token";
 import axios from "axios";
 import router from "@/router";
 
@@ -72,7 +72,7 @@ export default {
 
     async getInfo() {
       try {
-        const account = await getAccount();
+        const account = await getUserAccount();
         this.id = account.accountInfo.id;
         this.email = account.accountInfo.email;
         this.nickname = account.accountInfo.nickname;

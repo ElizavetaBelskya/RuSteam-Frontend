@@ -26,7 +26,7 @@
 import ProfileInfo from "@/components/Profile.vue";
 import UserAppItem from "@/components/UserAppItem.vue";
 import RusteamSidebar from "@/components/Sidebar.vue";
-import {getAccount} from "@/plugins/token";
+import {getUserAccount} from "@/plugins/token";
 
 
 export default {
@@ -54,7 +54,7 @@ export default {
 
     async getInfo() {
           try {
-            const account = await getAccount();
+            const account = await getUserAccount();
             this.id = account.accountInfo.id;
             this.email = account.accountInfo.email;
             this.nickname = account.accountInfo.nickname;

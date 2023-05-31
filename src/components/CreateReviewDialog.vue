@@ -32,7 +32,7 @@
 
 <script>
 import axios from "axios";
-import {getAccount, getDeveloperAccount} from "@/plugins/token";
+import {getUserAccount, getDeveloperAccount} from "@/plugins/token";
 
 export default {
   name: "CreateReviewDialog",
@@ -60,7 +60,7 @@ export default {
   },
   methods: {
     async saveChanges() {
-      const account_res = await getAccount();
+      const account_res = await getUserAccount();
       const authorId = account_res.userInfo.id;
       await axios.post('reviews/', {
         authorId: authorId,
