@@ -28,11 +28,12 @@
       <li
           v-for="app in apps" :key="app"
       >
-        <AppListItem
+        <AppListItemForDeveloper  @app-updated="fetchData"
             :id = "app.id"
             :title = "app.name"
             :description = "app.description"
             :image = "app.iconUrl"
+            :state = "app.state"
         />
       </li>
     </ul>
@@ -46,14 +47,14 @@
   </div>
 </template>
 <script>
-import AppListItem from "@/components/AppListItem.vue";
 import axios from "axios";
 import {getDeveloper} from "@/plugins/token";
 import router from "@/router";
+import AppListItemForDeveloper from "@/components/AppListItemForDeveloper.vue";
 
 export default {
   name: "DeveloperProfile",
-  components: {AppListItem},
+  components: {AppListItemForDeveloper},
   data() {
     return {
       devId: 1,
@@ -68,7 +69,7 @@ export default {
   methods: {
     async fetchData() {
       let pageId = this.page - 1
-      fetch(axios.defaults.baseURL + 'developers/' + this.id + "/applications?page=" + pageId, {
+      fetch(axios.defaults.baseURL + 'developers/' + this.devId + "/applications?page=" + pageId, {
         method: 'GET'
       }).then(res => res.json())
           .then(res => {

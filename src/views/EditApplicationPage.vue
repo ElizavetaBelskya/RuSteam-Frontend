@@ -14,11 +14,10 @@
     </div>
     <div class="mb-3">
       <label for="categories" class="form-label">Категории</label>
-      <select v-model="category" class="form-select" id="categories" required>
-        <option value="">Выберите категорию</option>
-        <option value="Category1">Шутеры</option>
-        <option value="Category2">Аркады</option>
-        <option value="Category3">Бизнес</option>
+      <select v-model="category" class="form-select" id="categories">
+        <option value="Шутеры">Шутеры</option>
+        <option value="Аркады">Аркады</option>
+        <option value="Бизнес">Бизнес</option>
       </select>
     </div>
 
@@ -51,9 +50,10 @@ import router from "@/router";
 import {getDeveloper, getRefreshToken} from "@/plugins/token";
 
 export default {
-  name: "AddApplicationPage",
+  name: "EditApplicationPage",
   data() {
     return {
+      id: Number,
       name: '',
       description: '',
       price: 0.0,
@@ -66,19 +66,36 @@ export default {
       windowsDownloadLink: ''
     }
   },
-  async created() {
+  async mounted() {
+    this.id = this.$route.params.appId;
     try {
       const account = await getDeveloper();
-      console.log(account.devInfo)
       this.developerId = account.devInfo.id;
     } catch (error) {
       console.error('Ошибка при выполнении запроса:', error);
     }
+    this.loadApplicationDetails(this.appId);
   },
   methods: {
+    loadApplicationDetails() {
+      fetch(axios.defaults.baseURL + 'applications/' + this.id, {
+        method: 'GET',
+      }).then(res => res.json())
+          .then(res => {
+            console.log(res)
+            this.description = res.description;
+            this.name = res.name;
+            this.youtubeUrl = res.youtubeUrl;
+            this.iconUrl = res.iconUrl;
+            this.androidDownloadLink = res.androidDownloadLink;
+            this.windowsDownloadLink = res.windowsDownloadLink;
+            this.category =  res.categories[0];
+          }).catch(error => console.error('Error:', error));
+
+    },
     async saveApplication() {
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('accessToken');
-      await axios.post('applications', {
+      await axios.put('applications/' + this.id, {
         developerId: this.developerId,
         name: this.name,
         description: this.description,

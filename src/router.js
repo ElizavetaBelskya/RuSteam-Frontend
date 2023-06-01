@@ -15,6 +15,7 @@ import DeveloperPersonalProfile from "@/views/DeveloperPersonalProfile.vue";
 import {getAccountId, getAccountIdResponse, getAccountInfo, getRefreshToken} from "@/plugins/token";
 import store from "@/store";
 import AddApplicationPage from "@/views/AddApplicationPage.vue";
+import EditApplicationPage from "@/views/EditApplicationPage.vue";
 const routes = [
     {
         path: '/',
@@ -128,6 +129,15 @@ const routes = [
         }
     },
     {
+        path: '/edit_app/:appId',
+        name: 'edit_app',
+        component: EditApplicationPage,
+        meta: {
+            requiresAuth: true,
+            roles: ['MODERATOR']
+        }
+    },
+    {
         path: '/404',
         name: 'NotFound',
         component: NotFound,
@@ -202,7 +212,6 @@ function getRole() {
 
 router.beforeEach(async (to, from, next) => {
     const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-    console.log(to)
     if (requiresAuth && !(await isAuthenticated())) {
         console.log('Не аутентифицирован');
         const data = {
@@ -229,12 +238,14 @@ router.beforeEach(async (to, from, next) => {
                 profileHref: profileHref
             }
             store.commit('updateSidebarData', data)
+            window.scrollTo(0, 0);
             next();
         } else {
             const data = {
                 visibleSidebar: false,
             }
             store.commit('updateSidebarData', data)
+            window.scrollTo(0, 0);
             next();
         }
     }

@@ -109,12 +109,10 @@ export default {
           method: 'GET'
         }).then(res => res.json())
             .then(res => {
-              console.log(res);
               this.apps = res.applications;
               this.pagescount = res.totalPagesCount;
             }).catch(error => console.error('Error:', error));
       }
-
     },
 
     search() {
@@ -140,7 +138,7 @@ export default {
             .then(res => {
               console.log(res);
               this.apps = res.applications;
-              this.pagescount = res.totalPagesCount;
+              this.pagescount = 1;
             }).catch(error => console.error('Error:', error));
       }
       this.search();
@@ -157,35 +155,6 @@ export default {
         }).catch(error => console.error('Error:', error));
   }
 
-  // data() {
-  //   return axios('http://localhost:80/applications', {
-  //     method: "GET"
-  //     // apps: [
-  //     //   {
-  //     //     title: "Загадочный дом",
-  //     //     image: "https://mahachkala.mir-kvestov.ru/uploads/quests/12139/original/shetvertyy_vid_dom_uzhasov_photo1.jpg?1643794780",
-  //     //     description: "Игра с потрясающей графикой, которая заставит вас по-настоящему испугаться..."
-  //     //   },
-  //     //   {
-  //     //     title: "Homescapes",
-  //     //     image: "https://upload.wikimedia.org/wikipedia/en/7/7e/Homescapes_icon.png",
-  //     //     description: "Дом и куча рекламы"
-  //     //   },
-  //     //   {
-  //     //     title: "Angry birds",
-  //     //     image: "https://assets-prd.ignimgs.com/2023/01/27/angrybirds-1674798875645.jpg",
-  //     //     description: "Классическая игра для мобильных устройств, которая помогает скоротать время..."
-  //     //   }
-  //     // ],
-  //     // tags: [
-  //     //   {
-  //     //     title: ""
-  //     //   }
-  //     // ]
-  //   }).then((apps) => {
-  //     this.apps = apps
-  //   })
-  // }
 }
 </script>
 
