@@ -32,7 +32,8 @@
 
 <script>
 import axios from "axios";
-import {getUserAccount, getDeveloperAccount} from "@/plugins/token";
+import {getUserAccount} from "@/plugins/token";
+import {mapState} from "vuex";
 
 export default {
   name: "CreateReviewDialog",
@@ -49,14 +50,15 @@ export default {
       isVisible: true
     }
   },
-  async created() {
-    const account_res = await getDeveloperAccount();
-    console.log(account_res)
-    if (!isNaN(account_res)) {
+  created() {
+    if (this.role === 'USER') {
       this.isVisible = true;
     } else {
       this.isVisible = false;
     }
+  },
+  computed: {
+    ...mapState(['role'])
   },
   methods: {
     async saveChanges() {

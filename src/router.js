@@ -14,6 +14,7 @@ import DeveloperRegistrationPage from "@/views/DeveloperRegistrationPage.vue";
 import DeveloperPersonalProfile from "@/views/DeveloperPersonalProfile.vue";
 import {getAccountId, getAccountIdResponse, getAccountInfo, getRefreshToken} from "@/plugins/token";
 import store from "@/store";
+import AddApplicationPage from "@/views/AddApplicationPage.vue";
 const routes = [
     {
         path: '/',
@@ -112,6 +113,15 @@ const routes = [
         path: '/developer_profile',
         name: 'DeveloperPersonalProfile',
         component: DeveloperPersonalProfile,
+        meta: {
+            requiresAuth: true,
+            roles: ['MODERATOR']
+        }
+    },
+    {
+        path: '/add_app',
+        name: 'AddApplicationPage',
+        component: AddApplicationPage,
         meta: {
             requiresAuth: true,
             roles: ['MODERATOR']

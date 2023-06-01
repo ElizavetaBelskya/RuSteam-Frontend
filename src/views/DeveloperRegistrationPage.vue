@@ -55,7 +55,7 @@ export default {
             if (error.response && error.response.status === 401) {
               const tokenResponse = getRefreshToken();
               if (tokenResponse.status === 200) {
-                return this.updateUser();
+                return this.updateDeveloper();
               }
             } else if (error.response.status === 400) {
               this.message = 'Данные некорректны'

@@ -6,6 +6,19 @@
           <p class = "profile-description">Название: {{ name }}</p>
           <p class = "profile-description">Описание: {{ text }}</p>
         </div>
+        <div class="crud-buttons">
+          <ul>
+            <li>
+              <router-link to="/add_app" type="button" class="btn btn-outline-info">Добавить новое приложение</router-link>
+            </li>
+            <li>
+              <button id = "delete-profile-btn" @click="deleteUser" type="button" class="btn btn-outline-info">Удалить аккаунт</button>
+            </li>
+            <li>
+              <button id = "delete-profile-btn" @click="logout" type="button" class="btn btn-outline-info">Выйти</button>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -19,7 +32,7 @@
             :id = "app.id"
             :title = "app.name"
             :description = "app.description"
-            :image = "app.image"
+            :image = "app.iconUrl"
         />
       </li>
     </ul>
@@ -36,12 +49,14 @@
 import AppListItem from "@/components/AppListItem.vue";
 import axios from "axios";
 import {getDeveloper} from "@/plugins/token";
+import router from "@/router";
 
 export default {
   name: "DeveloperProfile",
   components: {AppListItem},
   data() {
     return {
+      devId: 1,
       id: 1,
       name: "",
       text: "",
@@ -67,18 +82,33 @@ export default {
         this.id = account.accountInfo.id;
         this.email = account.accountInfo.email;
         this.nickname = account.accountInfo.nickname;
+        this.devId = account.devInfo.id;
         this.name = account.devInfo.name != null ? account.devInfo.name : 'Не задано';
         this.text = account.devInfo.description != null ? account.devInfo.description : 'Не задано';
         console.log(account);
       } catch (error) {
         console.error('Ошибка при выполнении запроса:', error);
       }
+    },
+    async deleteUser() {
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('accessToken');
+      await axios.delete('accounts/' + this.id)
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      await router.push('/')
+    },
+    async logout() {
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('accessToken');
+      await axios.post('auth/token/revoke');
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      await router.push('/')
     }
   },
   async created() {
     await this.getInfo()
     let pageId = this.page - 1
-    fetch(axios.defaults.baseURL + 'developers/' + this.id + "/applications?page=" + pageId,  {
+    fetch(axios.defaults.baseURL + 'developers/' + this.devId + "/applications?page=" + pageId,  {
       method: 'GET',
     }).then(res => res.json())
         .then(res => {
@@ -134,6 +164,21 @@ li {
 .app-list {
   color: aliceblue;
   padding: 1% 15% 7%;
+}
+
+.crud-buttons {
+  padding: 0;
+  margin-left: 2%;
+  margin-right: 2%;
+}
+
+.crud-buttons ul {
+  list-style: none;
+  padding: 0;
+}
+
+.crud-buttons li {
+  margin: 5px;
 }
 
 </style>

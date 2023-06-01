@@ -80,7 +80,7 @@ export async function getDeveloper() {
         if (error.response && error.response.status === 401) {
             const tokenResponse = await getRefreshToken();
             if (tokenResponse.status === 200) {
-                return getUserAccount();
+                return getDeveloper();
             } else {
                 return tokenResponse;
             }

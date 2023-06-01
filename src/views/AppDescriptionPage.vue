@@ -42,7 +42,7 @@
         <h3>Paзработчик</h3>
         <h3 class = "app-item-title">{{developerName}}</h3>
         <p class = "profile-description">{{developerDescription}}</p>
-        <router-link :to="{ name: 'developer', params: { developerId: devId } }">
+        <router-link :to="{ name: 'developer', params: { developerId: this.devId } }">
           <button type="button" class="btn btn-outline-info">Подробнее о разработчике</button>
         </router-link>
       </div>
@@ -97,20 +97,22 @@ export default {
         method: 'GET',
       }).then(res => res.json())
           .then(res => {
+            console.log(res)
             this.description = res.description;
             this.name = res.name;
             this.devId = res.developerId;
             this.embedUrl = res.youtubeUrl;
             this.icon = res.iconUrl;
             this.images = res.imagesUrl;
+            fetch(axios.defaults.baseURL + 'developers/dev-id/' + this.devId, {
+              method: 'GET'
+            }).then(res => res.json())
+                .then(res => {
+                  this.developerName = res.name;
+                  this.developerDescription = res.description;
+                }).catch(error => console.error('Error:', error));
           }).catch(error => console.error('Error:', error));
-      fetch(axios.defaults.baseURL + 'developers/dev-id/' + this.devId, {
-        method: 'GET'
-      }).then(res => res.json())
-          .then(res => {
-            this.developerName = res.name;
-            this.developerDescription = res.description;
-          }).catch(error => console.error('Error:', error));
+
     },
 
     fetchData: function () {
@@ -147,7 +149,7 @@ export default {
   color: white;
   margin: 1% 5% 5%;
   text-align: center;
-  background-color: rgba(8, 0, 28, 0.85);
+  background-color: #42268644;
   opacity: 0.9;
   border-radius: 25px;
   padding-top: 30px;
