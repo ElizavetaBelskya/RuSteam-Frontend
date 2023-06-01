@@ -1,5 +1,4 @@
 <template>
-  <RusteamSidebar/>
   <ProfileInfo :id="id" :email="email" :name="name" :surname="surname" :gender="gender"
                :birthtime="birthdayDate" :nickname="nickname"
                avatar="https://n1s2.hsmedia.ru/6a/46/ae/6a46aeed947a183d67d1bc48211151bf/480x496_0xac120003_4430520541578509619.jpg"/>
@@ -25,13 +24,12 @@
 <script>
 import ProfileInfo from "@/components/Profile.vue";
 import UserAppItem from "@/components/UserAppItem.vue";
-import RusteamSidebar from "@/components/Sidebar.vue";
 import {getUserAccount} from "@/plugins/token";
 
 
 export default {
   name: "ProfilePage",
-  components: {RusteamSidebar, UserAppItem, ProfileInfo},
+  components: {UserAppItem, ProfileInfo},
   data() {
     return {
       id: 0,

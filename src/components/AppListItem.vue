@@ -3,7 +3,7 @@
     <div id = "container">
       <div class ="app-item">
         <div class ="app-cell">
-          <img src = "https://lh6.googleusercontent.com/proxy/Qd6fxx9vlyBGBuDh3PwpY3Bk4tbojehJl4hMkBP91hXXpkGwqygME6MTUsTjk1wDEtrp79rP8zlvNIWv7QIfRk-zWNfhYaOg60t1lpdgZCeIBadVRyQ5A9dtbuG7VYS2mXTc-Df5prYfPcM_hKzw=s0-d" alt="app image" class ="app-item-image"/>
+          <img :src = "image" alt="app image" class ="app-item-image"/>
         </div>
         <div class = "app-info">
           <h3 class = "app-item-title">{{ title }}</h3>
@@ -24,7 +24,7 @@ export default {
   props: {
     id: Number,
     title: String,
-    image: URL,
+    image: String,
     description: String
   },
   data() {

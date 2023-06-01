@@ -35,7 +35,7 @@
               :id = "app.id"
               :title = "app.name"
               :description = "app.description"
-              :image = "app.image"
+              :image = "app.iconUrl"
           />
         </li>
       </ul>

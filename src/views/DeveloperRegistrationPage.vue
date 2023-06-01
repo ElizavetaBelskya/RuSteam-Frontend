@@ -8,6 +8,9 @@
       <label for="review" class="form-label">Описание вашей организации</label>
       <textarea class="form-control" rows="5" id="review" v-model="newText"></textarea>
     </div>
+    <div>
+      {{ message }}
+    </div>
 
     <button type="submit" class="btn btn-outline-info" id="register-btn">Сохранить</button>
   </form>
@@ -27,7 +30,8 @@ export default {
     return {
       id: Number,
       name: '',
-      newText: ''
+      newText: '',
+      message: ''
     }
   },
   async created() {
@@ -53,6 +57,8 @@ export default {
               if (tokenResponse.status === 200) {
                 return this.updateUser();
               }
+            } else if (error.response.status === 400) {
+              this.message = 'Данные некорректны'
             } else {
               router.push('/error');
               console.error('Ошибка при выполнении запроса:', error);

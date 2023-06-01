@@ -1,4 +1,5 @@
 <template>
+  <RusteamSidebar v-if="visibleSidebar" :name="nickname" :role="role" :profile-href="profileHref"/>
   <div class = "main">
     <img id = "main-logo" src="./assets/rusteam.png" alt = "Rusteam logo">
 
@@ -9,9 +10,15 @@
 
 <script>
 import RusteamFooter from "@/components/RusteamFooter.vue";
+import RusteamSidebar from "@/components/Sidebar.vue";
+import { mapState } from 'vuex';
+
 export default ({
   name: 'App',
-  components: {RusteamFooter}
+  computed: {
+    ...mapState(['visibleSidebar', 'nickname', 'role', 'profileHref'])
+  },
+  components: {RusteamFooter, RusteamSidebar}
 })
 </script>
 

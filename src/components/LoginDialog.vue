@@ -79,7 +79,7 @@ export default {
             if (accountInfo.role === 'USER') {
               router.push('/profile')
             } else if (accountInfo.role === 'MODERATOR') {
-              router.push('/dev_profile')
+              router.push('/developer_profile')
             } else if (accountInfo.role === 'ANON') {
               router.push('/ask')
             }

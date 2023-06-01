@@ -5,14 +5,16 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/js/bootstrap.js'
 import router from './router'
 import './axios'
+import store from './store'
 import DefaultLayout from './layouts/default.vue'
 import '@mdi/font/css/materialdesignicons.css'
 
-const app = createApp(App)
 
+const app = createApp(App)
 
 app.use(vuetify)
 app.use(router)
+app.use(store)
 app.component('default-layout', DefaultLayout)
 
 app.config.productionTip = false

@@ -13,6 +13,7 @@ import UserEditorPage from "@/views/UserEditorPage.vue";
 import DeveloperRegistrationPage from "@/views/DeveloperRegistrationPage.vue";
 import DeveloperPersonalProfile from "@/views/DeveloperPersonalProfile.vue";
 import {getAccountId, getAccountIdResponse, getAccountInfo, getRefreshToken} from "@/plugins/token";
+import store from "@/store";
 const routes = [
     {
         path: '/',
@@ -103,7 +104,8 @@ const routes = [
       name: 'EditUser',
       component: UserEditorPage,
         meta: {
-          requiresAuth: true
+          requiresAuth: true,
+            roles: ['USER']
       }
     },
     {
@@ -160,6 +162,7 @@ function getRole() {
                 console.log(id);
                 getAccountInfo(id).then((res) => {
                     resolve({
+                        nickname: res.nickname,
                         role: res.role,
                         status: 200,
                     });
@@ -189,24 +192,55 @@ function getRole() {
 
 router.beforeEach(async (to, from, next) => {
     const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+    console.log(to)
     if (requiresAuth && !(await isAuthenticated())) {
-        console.log('Не аутентифицирован')
+        console.log('Не аутентифицирован');
+        const data = {
+            visibleSidebar: false,
+        }
+        store.commit('updateSidebarData', data)
         next(from);
     } else if (requiresAuth && !(await hasAccess(to.meta.roles))) {
-        console.log('Не соответствует роль')
+        console.log('Не соответствует роль');
         next(from);
     } else {
-        next();
+        const { role, nickname, status } = await getRole();
+        if (status === 200) {
+            let profileHref = '';
+            if (role === 'USER') {
+                profileHref = '/profile'
+            } else if (role === 'MODERATOR') {
+                profileHref = '/developer_profile'
+            }
+            const data = {
+                visibleSidebar: true,
+                nickname: nickname,
+                role: role,
+                profileHref: profileHref
+            }
+            store.commit('updateSidebarData', data)
+            next();
+        } else {
+            const data = {
+                visibleSidebar: false,
+            }
+            store.commit('updateSidebarData', data)
+            next();
+        }
     }
+
 });
 
 
 
 async function hasAccess(allowedRoles) {
-    const {role, status} = await getRole();
-    console.log(status)
-    console.log(role + ' ' + allowedRoles)
-    return allowedRoles.includes(role);
+    const {role, nickname, status} = await getRole();
+    console.log(nickname)
+    if (status === 200) {
+        return allowedRoles.includes(role);
+    } else {
+        return false;
+    }
 }
 
 export default router

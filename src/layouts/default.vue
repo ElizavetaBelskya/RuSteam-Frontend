@@ -1,4 +1,5 @@
 <template>
+  <RusteamSidebar/>
   <div class = "main">
     <img id = "main-logo" src="../assets/rusteam.png" alt = "Rusteam logo">
 
@@ -9,10 +10,11 @@
 
 <script>
 import RusteamFooter from "@/components/RusteamFooter.vue";
+import RusteamSidebar from "@/components/Sidebar.vue";
 
 export default {
   name: "default-layout.vue",
-  components: {RusteamFooter}
+  components: {RusteamSidebar, RusteamFooter}
 }
 </script>
 

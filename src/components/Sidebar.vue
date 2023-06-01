@@ -9,8 +9,8 @@
             <v-list>
               <v-list-item
                   prepend-avatar="https://cdn-icons-png.flaticon.com/512/149/149071.png"
-                  title="Username"
-                  subtitle="Status"
+                  :title="name"
+                  :subtitle="role"
               ></v-list-item>
             </v-list>
 
@@ -18,13 +18,12 @@
 
             <v-list density="compact" nav>
 
-              <v-list-item prepend-icon="mdi-account-multiple" title= "Мои приложения" value="shared"></v-list-item>
+              <v-list-item prepend-icon="mdi-account-multiple" title= "Мой профиль" :href="profileHref" value="shared">
 
-              <v-list-item prepend-icon="mdi-star" title="Все приложения" value="Все приложения"></v-list-item>
+              </v-list-item>
 
-              <v-list-item color="white" prepend-icon="mdi-star" title="Акции" value="Акции"></v-list-item>
+              <v-list-item prepend-icon="mdi-star" title="Все приложения" href="/" value="Все приложения"></v-list-item>
 
-              <v-list-item color="white" prepend-icon="mdi-star-circle" title="Хиты" value="Хиты"></v-list-item>
             </v-list>
           </v-navigation-drawer>
 
@@ -34,8 +33,14 @@
 </template>
 
 <script>
+
 export default {
-  name: "RusteamSidebar"
+  name: "RusteamSidebar",
+  props: {
+    name: String,
+    role: String,
+    profileHref: String
+  }
 }
 </script>
 

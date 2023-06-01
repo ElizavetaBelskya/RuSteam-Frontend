@@ -49,8 +49,19 @@ export default {
       apps: []
     }
   },
+  mounted() {
+    this.id = this.$route.params.developerId;
+    this.fetchData()
+  },
   methods: {
     fetchData: function () {
+        fetch(axios.defaults.baseURL + 'developers/dev-id/' + this.id, {
+          method: 'GET'
+        }).then(res => res.json())
+            .then(res => {
+              this.name = res.name;
+              this.text = res.description;
+          }).catch(error => console.error('Error:', error));
         let pageId = this.page - 1
         fetch(axios.defaults.baseURL + 'developers/' + this.id + "/applications?page=" + pageId, {
           method: 'GET'
@@ -61,16 +72,6 @@ export default {
             }).catch(error => console.error('Error:', error));
     },
   },
-  created() {
-    let pageId = this.page - 1
-    fetch(axios.defaults.baseURL + 'developers/' + this.id + "/applications?page=" + pageId,  {
-      method: 'GET',
-    }).then(res => res.json())
-        .then(res => {
-          this.apps = res.applications
-          this.pagescount = res.totalPagesCount
-        }).catch(error => console.error('Error:', error));
-  }
 
 }
 
